@@ -55,6 +55,18 @@ public class OdooClientFactoryTest {
         assertEquals(OdooClient.class, client.getClass());
     }
     
+    @Test
+    public void shouldCreateUnsecureOdooClient() {
+        OdooClient client = null;
+        try {
+            client = OdooClientFactory.createUnsecureClient("http","www.isoltechnics.com",OdooConnectorDefaults.ODOO_DEFAULT_PORT ,OdooConnectorDefaults.COMMON_ENDPOINT);
+        } catch (MalformedURLException ex) {
+            fail(ex.getMessage());
+        }
+        assertNotNull(client);
+        assertEquals(OdooClient.class, client.getClass());
+    }
+    
     @Test(expected = MalformedURLException.class)
     public void shouldThrowBecauseBadURL() throws MalformedURLException {
         OdooClientFactory.createClient("NotRight","www.isoltechnics.com",OdooConnectorDefaults.ODOO_DEFAULT_PORT ,OdooConnectorDefaults.COMMON_ENDPOINT);
