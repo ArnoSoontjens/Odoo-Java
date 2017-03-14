@@ -35,17 +35,13 @@ public class OdooCommonClient {
     }
     
     private int authenticate(OdooDatabaseParams dbParams) throws XMLRPCException {
-        int userId;
-
-        userId = (int) client.call(
+        return (int) client.call(
                 OdooDefaults.ACTION_AUTHENTICATE,
                 dbParams.getDatabaseName(),
                 dbParams.getDatabaseLogin(),
                 dbParams.getDatabasePassword(),
                 emptyList()
         );
-
-        return userId;
     }
     
     private int getVersion() {
