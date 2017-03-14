@@ -9,6 +9,7 @@ import com.arnowouter.javaodoo.defaults.OdooConnectorDefaults;
 import com.arnowouter.javaodoo.supportClasses.OdooDatabaseParams;
 import de.timroes.axmlrpc.XMLRPCException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import static java.util.Collections.emptyList;
 
 /**
@@ -18,19 +19,27 @@ import static java.util.Collections.emptyList;
 public class OdooCommonClient {
     OdooClient client;
     
-    public OdooCommonClient(String protocol, String hostName) throws MalformedURLException {
-        client = OdooClientFactory.createClient(protocol, hostName, OdooConnectorDefaults.ODOO_DEFAULT_PORT, OdooConnectorDefaults.COMMON_ENDPOINT);
+    public OdooCommonClient(String protocol, String hostName, boolean HTTPS) throws MalformedURLException {        
+        int port = changePortIfHTTPS(HTTPS);
+        URL clientURL = new URL(protocol,hostName,port, OdooConnectorDefaults.COMMON_ENDPOINT);
+        client = OdooClientFactory.createClient(clientURL);
+    }
+    
+    public OdooCommonClient(URL url) throws MalformedURLException {
+        URL ClientURL = new URL(url.toString() + OdooConnectorDefaults.COMMON_ENDPOINT);
+        client = OdooClientFactory.createClient(ClientURL);
     }
     
     public OdooCommonClient(String protocol, String hostName, int connectionPort) throws MalformedURLException{
-        client = OdooClientFactory.createClient(protocol,hostName,connectionPort,OdooConnectorDefaults.COMMON_ENDPOINT);
+        URL clientURL = new URL(protocol,hostName, connectionPort, OdooConnectorDefaults.COMMON_ENDPOINT);
+        client = OdooClientFactory.createClient(clientURL);
     }
     
     public OdooCommonClient(String protocol, String hostName, int connectionPort, boolean ignoreInvalidSSL) throws MalformedURLException {
         if(ignoreInvalidSSL) {
-            client = OdooClientFactory.createUnsecureClient(protocol, hostName, connectionPort, OdooConnectorDefaults.COMMON_ENDPOINT);
+            client = OdooClientFactory.createUnsecureClient(new URL(protocol, hostName, connectionPort, OdooConnectorDefaults.COMMON_ENDPOINT));
         } else {
-            client = OdooClientFactory.createClient(protocol, hostName, connectionPort, OdooConnectorDefaults.COMMON_ENDPOINT);
+            client = OdooClientFactory.createClient(new URL(protocol, hostName, connectionPort, OdooConnectorDefaults.COMMON_ENDPOINT));
         }
     }
     
@@ -44,6 +53,20 @@ public class OdooCommonClient {
     }
     
     public Object getVersion() throws XMLRPCException {
-        return (Object) client.call(OdooConnectorDefaults.ACTION_VERSION_INFO, emptyList());
+        return (Object) client.call(OdooConnectorDefaults.ACTION_VERSION_INFO);
     }
+
+    @Override
+    public String toString() {
+        return "OdooCommonClient{" + "client=" + client + '}';
+    }
+    
+    private int changePortIfHTTPS(boolean HTTPS) {
+        int port = OdooConnectorDefaults.DEFAULT_HTTP_PORT;
+        if(HTTPS){
+            port = OdooConnectorDefaults.DEFAULT_HTTPS_PORT;
+        }
+        return port;
+    }
+    
 }
