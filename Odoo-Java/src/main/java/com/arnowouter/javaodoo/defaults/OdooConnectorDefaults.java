@@ -29,7 +29,7 @@ public class OdooConnectorDefaults {
     public final static String ACTION_SEARCH = "search";
     public final static String ACTION_READ = "read";
     public final static String ACTION_SEARCH_READ = "search_read";
-    public final static String ACTION_WRITE = "create";
+    public final static String ACTION_CREATE_RECORD = "create";
     
     public final static String PROTOCOL_HTTP = "http";
     public final static String PROTOCOL_HTTPS = "https";

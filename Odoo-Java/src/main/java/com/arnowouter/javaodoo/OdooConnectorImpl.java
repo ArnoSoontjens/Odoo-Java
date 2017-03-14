@@ -13,8 +13,6 @@ import de.timroes.axmlrpc.XMLRPCException;
 import java.net.MalformedURLException;
 import static java.util.Arrays.asList;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 /**
@@ -87,14 +85,19 @@ public class OdooConnectorImpl implements OdooConnector {
     }
     
     @Override
-    public int write(String model, HashMap<String, String> dataToWrite) throws OdooConnectorException {
+    public Object[] getAllFieldsForModel(String model) throws OdooConnectorException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public int createRecord(String model, HashMap<String, String> dataToWrite) throws OdooConnectorException {
         try {
             Object[] params = {
                 dbParams.getDatabaseName(),
                 odooUserId,
                 dbParams.getDatabasePassword(),
                 model,
-                OdooConnectorDefaults.ACTION_WRITE,
+                OdooConnectorDefaults.ACTION_CREATE_RECORD,
                 asList(dataToWrite)
             };
             
@@ -126,6 +129,12 @@ public class OdooConnectorImpl implements OdooConnector {
             throw new OdooConnectorException(ex.getMessage(), ex);
         }
     }
+    
+    @Override
+    public int count(String model, Object[] query) throws OdooConnectorException {
+        //TODO: implement this
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     @Override
     public Object[] search(String model, Object[] query) throws OdooConnectorException {
@@ -137,6 +146,7 @@ public class OdooConnectorImpl implements OdooConnector {
                 model,
                 OdooConnectorDefaults.ACTION_SEARCH,
                 asList(asList(query))
+                //TODO: implement offset and limit (pagination)
             };
             return (Object[]) objectClient.search(params);
         } catch (XMLRPCException ex) {
@@ -149,6 +159,7 @@ public class OdooConnectorImpl implements OdooConnector {
         return searchAndRead(model, new Object[0],requestedFields);
     }
     
+
     @Override
     public Object[] searchAndRead(String model, Object[] query, Object[] requestedFields) throws OdooConnectorException {
         if(!isAuthenticated()) throw new OdooConnectorException(OdooExceptionMessages.EX_MESSAGE_NOT_AUTHENTENTICATED);
@@ -170,8 +181,20 @@ public class OdooConnectorImpl implements OdooConnector {
         }
     }
 
+    @Override
+    public int updateRecord(String model, HashMap<String, String> dataToUpdate) throws OdooConnectorException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteRecords(String model, Object[] idsToBeDeleted) throws OdooConnectorException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
     private boolean isAuthenticated() {
         return odooUserId != -1;
     }
+
+
     
 }
