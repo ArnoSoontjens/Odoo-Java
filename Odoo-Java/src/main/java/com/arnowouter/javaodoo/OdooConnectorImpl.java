@@ -5,6 +5,8 @@
  */
 package com.arnowouter.javaodoo;
 
+import com.arnowouter.javaodoo.client.OdooObjectClient;
+import com.arnowouter.javaodoo.client.OdooCommonClient;
 import com.arnowouter.javaodoo.defaults.OdooConnectorDefaults;
 import com.arnowouter.javaodoo.exceptions.OdooConnectorException;
 import com.arnowouter.javaodoo.exceptions.OdooExceptionMessages;
@@ -109,7 +111,7 @@ public class OdooConnectorImpl implements OdooConnector {
 
     @Override
     public Object[] read(String model, Object[] requestedIds, Object[] requestedFields) throws OdooConnectorException {
-        if(!isAuthenticated()) throw new OdooConnectorException(OdooExceptionMessages.EX_MESSAGE_NOT_AUTHENTENTICATED);
+        if(!isAuthenticated()) throw new OdooConnectorException(OdooExceptionMessages.EX_MSG_NOT_AUTHENTENTICATED);
         
         try {
             Object[] params = new Object[] {
@@ -162,7 +164,7 @@ public class OdooConnectorImpl implements OdooConnector {
 
     @Override
     public Object[] searchAndRead(String model, Object[] query, Object[] requestedFields) throws OdooConnectorException {
-        if(!isAuthenticated()) throw new OdooConnectorException(OdooExceptionMessages.EX_MESSAGE_NOT_AUTHENTENTICATED);
+        if(!isAuthenticated()) throw new OdooConnectorException(OdooExceptionMessages.EX_MSG_NOT_AUTHENTENTICATED);
         try {  
             Object[] params = new Object[]{
                 dbParams.getDatabaseName(),
@@ -195,6 +197,4 @@ public class OdooConnectorImpl implements OdooConnector {
         return odooUserId != -1;
     }
 
-
-    
 }

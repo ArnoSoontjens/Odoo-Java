@@ -5,6 +5,12 @@
  */
 package Tests;
 
+import com.arnowouter.javaodoo.client.OdooClient;
+import com.arnowouter.javaodoo.client.OdooClientFactory;
+import com.arnowouter.javaodoo.defaults.OdooConnectorDefaults;
+import java.net.MalformedURLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -36,10 +42,26 @@ public class OdooClientFactoryTest {
     @After
     public void tearDown() {
     }
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+    
+    @Test
+    public void shouldCreateOdooClientWithDefaultPort() {
+        OdooClient client = null;
+        try {
+            client = OdooClientFactory.createClient("http","www.isoltechnics.com",OdooConnectorDefaults.ODOO_DEFAULT_PORT ,OdooConnectorDefaults.COMMON_ENDPOINT);
+        } catch (MalformedURLException ex) {
+            fail(ex.getMessage());
+        }
+        assertNotNull(client);
+        assertEquals(OdooClient.class, client.getClass());
+    }
+    
+    @Test(expected = MalformedURLException.class)
+    public void shouldThrowBecauseBadURL() throws MalformedURLException {
+        OdooClientFactory.createClient("NotRight","www.isoltechnics.com",OdooConnectorDefaults.ODOO_DEFAULT_PORT ,OdooConnectorDefaults.COMMON_ENDPOINT);
+    }
+    
+    @Test(expected = MalformedURLException.class)
+    public void shouldThrowBecauseNegativePortNumber() throws MalformedURLException {
+        OdooClientFactory.createClient("http","www.isoltechnics.com",-1,OdooConnectorDefaults.COMMON_ENDPOINT);
+    }
 }

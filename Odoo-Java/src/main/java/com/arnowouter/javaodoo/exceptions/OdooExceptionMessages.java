@@ -10,5 +10,6 @@ package com.arnowouter.javaodoo.exceptions;
  * @author Arno Soontjens
  */
 public class OdooExceptionMessages {
-    public static final String EX_MESSAGE_NOT_AUTHENTENTICATED = "Not authenticated. Please call the 'authenticate' function first.";
+    public static final String EX_MSG_NOT_AUTHENTENTICATED = "Not authenticated. Please call the 'authenticate' function first.";
+    public static final String EX_MSG_NEGATIVE_CONNECTION_PORT = "The connection port cannot be negative";
 }

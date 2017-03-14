@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.arnowouter.javaodoo;
+package com.arnowouter.javaodoo.client;
 
+import com.arnowouter.javaodoo.exceptions.OdooExceptionMessages;
 import de.timroes.axmlrpc.XMLRPCClient;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -22,7 +23,9 @@ public class OdooClientFactory {
         return createClient(protocol, hostName, connectionPort, endPoint, false);
     }
     
-    private static OdooClient createClient(String protocol, String hostName, int connectionPort, String endPoint, boolean ignoreInvalidSSL) throws MalformedURLException {             
+    private static OdooClient createClient(String protocol, String hostName, int connectionPort, String endPoint, boolean ignoreInvalidSSL) throws MalformedURLException {  
+        if(connectionPort <=0) throw new MalformedURLException(OdooExceptionMessages.EX_MSG_NEGATIVE_CONNECTION_PORT);
+        
         URL url = new URL(protocol, hostName, connectionPort, endPoint);
         OdooClient odooClient; 
         if(ignoreInvalidSSL){
