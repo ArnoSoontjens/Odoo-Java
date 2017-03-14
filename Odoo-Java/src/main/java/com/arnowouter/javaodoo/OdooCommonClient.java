@@ -6,7 +6,10 @@
 package com.arnowouter.javaodoo;
 
 import com.arnowouter.javaodoo.defaults.OdooDefaults;
+import com.arnowouter.javaodoo.supportClasses.OdooDatabaseParams;
+import de.timroes.axmlrpc.XMLRPCException;
 import java.net.MalformedURLException;
+import static java.util.Collections.emptyList;
 
 /**
  *
@@ -31,8 +34,18 @@ public class OdooCommonClient {
         }
     }
     
-    private int authenticate() {
-        return 0;
+    private int authenticate(OdooDatabaseParams dbParams) throws XMLRPCException {
+        int userId;
+
+        userId = (int) client.call(
+                OdooDefaults.ACTION_AUTHENTICATE,
+                dbParams.getDatabaseName(),
+                dbParams.getDatabaseLogin(),
+                dbParams.getDatabasePassword(),
+                emptyList()
+        );
+
+        return userId;
     }
     
     private int getVersion() {
