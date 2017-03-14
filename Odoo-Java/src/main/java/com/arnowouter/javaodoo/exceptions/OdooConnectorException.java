@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.arnowouter.javaodoo;
+package com.arnowouter.javaodoo.exceptions;
 
 /**
  *

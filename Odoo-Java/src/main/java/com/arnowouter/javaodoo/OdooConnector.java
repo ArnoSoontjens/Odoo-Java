@@ -5,8 +5,8 @@
  */
 package com.arnowouter.javaodoo;
 
+import com.arnowouter.javaodoo.exceptions.OdooConnectorException;
 import com.arnowouter.javaodoo.supportClasses.OdooDatabaseParams;
-import com.arnowouter.javaodoo.exceptions.OdooObjectClient;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

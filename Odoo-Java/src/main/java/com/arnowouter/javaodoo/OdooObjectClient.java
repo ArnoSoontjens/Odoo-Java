@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.arnowouter.javaodoo.exceptions;
+package com.arnowouter.javaodoo;
 
 import com.arnowouter.javaodoo.OdooClient;
 import com.arnowouter.javaodoo.OdooClientFactory;
