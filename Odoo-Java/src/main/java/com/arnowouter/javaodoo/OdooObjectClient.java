@@ -5,8 +5,6 @@
  */
 package com.arnowouter.javaodoo;
 
-import com.arnowouter.javaodoo.OdooClient;
-import com.arnowouter.javaodoo.OdooClientFactory;
 import com.arnowouter.javaodoo.defaults.OdooDefaults;
 import java.net.MalformedURLException;
 
