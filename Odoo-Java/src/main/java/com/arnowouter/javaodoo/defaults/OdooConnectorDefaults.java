@@ -9,7 +9,7 @@ package com.arnowouter.javaodoo.defaults;
  *
  * @author Arno
  */
-public class OdooDefaults {
+public class OdooConnectorDefaults {
 
     // ERRORS
     public static final String ERROR_XML_RPC = "XML-RPC error";    
@@ -23,7 +23,7 @@ public class OdooDefaults {
     // RPC FUNCTIONS
     public static final String EXECUTE = "execute_kw";
     
-   // ACTIONS
+    // ACTIONS
     public final static String ACTION_AUTHENTICATE = "authenticate";
     public final static String ACTION_VERSION_INFO = "version";
     public final static String ACTION_SEARCH = "search";
@@ -34,5 +34,7 @@ public class OdooDefaults {
     public final static String PROTOCOL_HTTP = "http";
     public final static String PROTOCOL_HTTPS = "https";
     
+    // OTHER
     public final static int DEFAULT_ODOO_PORT = 8080;
+    public final static String SEARCH_FOR_FIELDS = "fields";
 }

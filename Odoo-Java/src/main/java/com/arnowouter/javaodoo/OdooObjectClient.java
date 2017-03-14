@@ -5,7 +5,8 @@
  */
 package com.arnowouter.javaodoo;
 
-import com.arnowouter.javaodoo.defaults.OdooDefaults;
+import com.arnowouter.javaodoo.defaults.OdooConnectorDefaults;
+import de.timroes.axmlrpc.XMLRPCException;
 import java.net.MalformedURLException;
 
 /**
@@ -17,34 +18,34 @@ public class OdooObjectClient {
     OdooClient client;
     
     public OdooObjectClient(String protocol, String hostName) throws MalformedURLException {
-        client = OdooClientFactory.createClient(protocol, hostName, OdooDefaults.DEFAULT_ODOO_PORT, OdooDefaults.OBJECT_ENDPOINT);
+        client = OdooClientFactory.createClient(protocol, hostName, OdooConnectorDefaults.DEFAULT_ODOO_PORT, OdooConnectorDefaults.OBJECT_ENDPOINT);
     }
     
     public OdooObjectClient(String protocol, String hostName, int connectionPort) throws MalformedURLException{
-        client = OdooClientFactory.createClient(protocol,hostName,connectionPort,OdooDefaults.OBJECT_ENDPOINT);
+        client = OdooClientFactory.createClient(protocol,hostName,connectionPort,OdooConnectorDefaults.OBJECT_ENDPOINT);
     }
     
     public OdooObjectClient(String protocol, String hostName, int connectionPort, boolean ignoreInvalidSSL) throws MalformedURLException {
         if(ignoreInvalidSSL) {
-            client = OdooClientFactory.createUnsecureClient(protocol, hostName, connectionPort, OdooDefaults.OBJECT_ENDPOINT);
+            client = OdooClientFactory.createUnsecureClient(protocol, hostName, connectionPort, OdooConnectorDefaults.OBJECT_ENDPOINT);
         } else {
-            client = OdooClientFactory.createClient(protocol, hostName, connectionPort, OdooDefaults.OBJECT_ENDPOINT);
+            client = OdooClientFactory.createClient(protocol, hostName, connectionPort, OdooConnectorDefaults.OBJECT_ENDPOINT);
         }
     }
     
-    private void search() {
+    public void search() {
         
     }
     
-    private void read() {
+    public void read() {
         
     }
     
-    private void searchAndRead() {
-        
+    public Object[] searchAndRead(String model, Object[] params) throws XMLRPCException {
+        return (Object[]) client.call(OdooConnectorDefaults.EXECUTE, params);
     }
     
-    private void write(){
+    public void write(){
         
     }
 }

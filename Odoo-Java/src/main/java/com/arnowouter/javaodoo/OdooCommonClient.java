@@ -5,7 +5,7 @@
  */
 package com.arnowouter.javaodoo;
 
-import com.arnowouter.javaodoo.defaults.OdooDefaults;
+import com.arnowouter.javaodoo.defaults.OdooConnectorDefaults;
 import com.arnowouter.javaodoo.supportClasses.OdooDatabaseParams;
 import de.timroes.axmlrpc.XMLRPCException;
 import java.net.MalformedURLException;
@@ -19,24 +19,23 @@ public class OdooCommonClient {
     OdooClient client;
     
     public OdooCommonClient(String protocol, String hostName) throws MalformedURLException {
-        client = OdooClientFactory.createClient(protocol, hostName, OdooDefaults.DEFAULT_ODOO_PORT, OdooDefaults.COMMON_ENDPOINT);
+        client = OdooClientFactory.createClient(protocol, hostName, OdooConnectorDefaults.DEFAULT_ODOO_PORT, OdooConnectorDefaults.COMMON_ENDPOINT);
     }
     
     public OdooCommonClient(String protocol, String hostName, int connectionPort) throws MalformedURLException{
-        client = OdooClientFactory.createClient(protocol,hostName,connectionPort,OdooDefaults.COMMON_ENDPOINT);
+        client = OdooClientFactory.createClient(protocol,hostName,connectionPort,OdooConnectorDefaults.COMMON_ENDPOINT);
     }
     
     public OdooCommonClient(String protocol, String hostName, int connectionPort, boolean ignoreInvalidSSL) throws MalformedURLException {
         if(ignoreInvalidSSL) {
-            client = OdooClientFactory.createUnsecureClient(protocol, hostName, connectionPort, OdooDefaults.COMMON_ENDPOINT);
+            client = OdooClientFactory.createUnsecureClient(protocol, hostName, connectionPort, OdooConnectorDefaults.COMMON_ENDPOINT);
         } else {
-            client = OdooClientFactory.createClient(protocol, hostName, connectionPort, OdooDefaults.COMMON_ENDPOINT);
+            client = OdooClientFactory.createClient(protocol, hostName, connectionPort, OdooConnectorDefaults.COMMON_ENDPOINT);
         }
     }
     
-    private int authenticate(OdooDatabaseParams dbParams) throws XMLRPCException {
-        return (int) client.call(
-                OdooDefaults.ACTION_AUTHENTICATE,
+    public int authenticate(OdooDatabaseParams dbParams) throws XMLRPCException {
+        return (int) client.call(OdooConnectorDefaults.ACTION_AUTHENTICATE,
                 dbParams.getDatabaseName(),
                 dbParams.getDatabaseLogin(),
                 dbParams.getDatabasePassword(),
@@ -44,7 +43,7 @@ public class OdooCommonClient {
         );
     }
     
-    private int getVersion() {
+    public int getVersion() {
         return 0;
     }
 }

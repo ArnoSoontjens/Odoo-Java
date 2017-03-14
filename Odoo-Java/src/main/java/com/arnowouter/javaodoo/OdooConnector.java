@@ -5,13 +5,17 @@
  */
 package com.arnowouter.javaodoo;
 
+import com.arnowouter.javaodoo.exceptions.OdooConnectorException;
+import java.util.HashMap;
+
 /**
  *
  * @author Arno
  */
 public interface OdooConnector {
-    public int write();
-    public void read();
-    public void search();
-    public void searchAndRead();
+    public int authenticate() throws OdooConnectorException;
+    public int write(String model, HashMap<String, String> dataToWrite) throws OdooConnectorException;
+    public Object[] read(String model) throws OdooConnectorException;
+    public Object[] search(String model) throws OdooConnectorException;
+    public Object[] searchAndRead(String model, Object[] query, Object[] requestedFields) throws OdooConnectorException;
 }
