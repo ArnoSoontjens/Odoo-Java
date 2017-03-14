@@ -43,7 +43,7 @@ public class OdooCommonClient {
         );
     }
     
-    public int getVersion() {
-        return 0;
+    public Object getVersion() throws XMLRPCException {
+        return (Object) client.call(OdooConnectorDefaults.ACTION_VERSION_INFO, emptyList());
     }
 }

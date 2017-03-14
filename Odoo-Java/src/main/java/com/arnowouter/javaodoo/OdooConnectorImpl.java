@@ -79,7 +79,11 @@ public class OdooConnectorImpl implements OdooConnector {
     
     @Override
     public Object[] getVersion() throws OdooConnectorException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            return (Object[]) commonClient.getVersion();
+        } catch (XMLRPCException ex) {
+            throw new OdooConnectorException(ex.getMessage(), ex);
+        }
     }
     
     @Override
