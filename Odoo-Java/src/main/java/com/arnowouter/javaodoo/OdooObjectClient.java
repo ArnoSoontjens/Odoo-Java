@@ -33,19 +33,23 @@ public class OdooObjectClient {
         }
     }
     
-    public void search() {
-        
+    public Object[] search(Object[] params) throws XMLRPCException {
+        return executeCall(params);
     }
     
     public Object[] read(Object[] params) throws XMLRPCException {
-        return (Object[]) client.call(OdooConnectorDefaults.EXECUTE, params);
+        return executeCall(params);
     }
     
     public Object[] searchAndRead(Object[] params) throws XMLRPCException {
-        return (Object[]) client.call(OdooConnectorDefaults.EXECUTE, params);
+        return executeCall(params);
     }
     
     public int write(Object[] params) throws XMLRPCException{
         return (int) client.call(OdooConnectorDefaults.EXECUTE, params);
+    }
+    
+    private Object[] executeCall(Object[] params) throws XMLRPCException {
+        return (Object[]) client.call(OdooConnectorDefaults.EXECUTE, params);
     }
 }

@@ -128,8 +128,20 @@ public class OdooConnectorImpl implements OdooConnector {
     }
 
     @Override
-    public Object[] search(String model) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Object[] search(String model, Object[] query) throws OdooConnectorException {
+        try {
+            Object[] params = new Object[] {
+                dbParams.getDatabaseName(),
+                odooUserId,
+                dbParams.getDatabasePassword(),
+                model,
+                OdooConnectorDefaults.ACTION_SEARCH,
+                asList(asList(query))
+            };
+            return (Object[]) objectClient.search(params);
+        } catch (XMLRPCException ex) {
+            throw new OdooConnectorException(ex.getMessage(), ex);
+        }
     }
 
     @Override
