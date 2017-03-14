@@ -19,7 +19,7 @@ public class OdooCommonClient {
     OdooClient client;
     
     public OdooCommonClient(String protocol, String hostName) throws MalformedURLException {
-        client = OdooClientFactory.createClient(protocol, hostName, OdooConnectorDefaults.DEFAULT_ODOO_PORT, OdooConnectorDefaults.COMMON_ENDPOINT);
+        client = OdooClientFactory.createClient(protocol, hostName, OdooConnectorDefaults.ODOO_DEFAULT_PORT, OdooConnectorDefaults.COMMON_ENDPOINT);
     }
     
     public OdooCommonClient(String protocol, String hostName, int connectionPort) throws MalformedURLException{

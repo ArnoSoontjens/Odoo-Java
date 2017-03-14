@@ -35,6 +35,6 @@ public class OdooConnectorDefaults {
     public final static String PROTOCOL_HTTPS = "https";
     
     // OTHER
-    public final static int DEFAULT_ODOO_PORT = 8080;
-    public final static String SEARCH_FOR_FIELDS = "fields";
+    public final static int ODOO_DEFAULT_PORT = 8080;
+    public final static String ODOO_FIELDS = "fields";
 }

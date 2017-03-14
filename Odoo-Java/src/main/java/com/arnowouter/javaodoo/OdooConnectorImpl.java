@@ -19,7 +19,8 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Arno
+ * @author  Arno Soontjens
+ * @see     https://github.com/ArnoSoontjens
  */
 
 
@@ -75,15 +76,38 @@ public class OdooConnectorImpl implements OdooConnector {
             throw new OdooConnectorException(ex.getMessage(), ex);
         }
     }
-
+    
+    @Override
+    public Object[] getVersion() throws OdooConnectorException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
     @Override
     public int write(String model, HashMap<String, String> dataToWrite) throws OdooConnectorException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.     
     }
 
     @Override
-    public Object[] read(String model) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Object[] read(String model, Object[] requestedIds, Object[] requestedFields) throws OdooConnectorException {
+        if(!isAuthenticated()) throw new OdooConnectorException(OdooExceptionMessages.EX_MESSAGE_NOT_AUTHENTENTICATED);
+        
+        try {
+            Object[] params = new Object[] {
+                    dbParams.getDatabaseName(),
+                    odooUserId,
+                    dbParams.getDatabasePassword(),
+                    model,
+                    OdooConnectorDefaults.ACTION_READ,
+                    asList(asList(requestedIds)),
+                    new HashMap() {{
+                        put(OdooConnectorDefaults.ODOO_FIELDS, asList(requestedFields));
+                    }}
+            };
+
+            return (Object[]) objectClient.read(params);
+        } catch (XMLRPCException ex) {
+            throw new OdooConnectorException(ex.getMessage(), ex);
+        }
     }
 
     @Override
@@ -91,6 +115,11 @@ public class OdooConnectorImpl implements OdooConnector {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public Object[] searchAndRead(String model, Object[] requestedFields) throws OdooConnectorException {
+        return searchAndRead(model, new Object[0],requestedFields);
+    }
+    
     @Override
     public Object[] searchAndRead(String model, Object[] query, Object[] requestedFields) throws OdooConnectorException {
         if(!isAuthenticated()) throw new OdooConnectorException(OdooExceptionMessages.EX_MESSAGE_NOT_AUTHENTENTICATED);
@@ -103,10 +132,10 @@ public class OdooConnectorImpl implements OdooConnector {
                 OdooConnectorDefaults.ACTION_SEARCH_READ,
                 asList(asList(query)),
                 new HashMap() {{
-                    put(OdooConnectorDefaults.SEARCH_FOR_FIELDS, asList(requestedFields));
+                    put(OdooConnectorDefaults.ODOO_FIELDS, asList(requestedFields));
                 }}
             };
-            return (Object[]) objectClient.searchAndRead(OdooConnectorDefaults.EXECUTE, params);
+            return (Object[]) objectClient.searchAndRead(params);
         } catch (XMLRPCException ex) {
             throw new OdooConnectorException(ex.getMessage(), ex);
         }

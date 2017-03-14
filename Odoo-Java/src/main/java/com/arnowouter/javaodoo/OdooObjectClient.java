@@ -18,7 +18,7 @@ public class OdooObjectClient {
     OdooClient client;
     
     public OdooObjectClient(String protocol, String hostName) throws MalformedURLException {
-        client = OdooClientFactory.createClient(protocol, hostName, OdooConnectorDefaults.DEFAULT_ODOO_PORT, OdooConnectorDefaults.OBJECT_ENDPOINT);
+        client = OdooClientFactory.createClient(protocol, hostName, OdooConnectorDefaults.ODOO_DEFAULT_PORT, OdooConnectorDefaults.OBJECT_ENDPOINT);
     }
     
     public OdooObjectClient(String protocol, String hostName, int connectionPort) throws MalformedURLException{
@@ -37,11 +37,11 @@ public class OdooObjectClient {
         
     }
     
-    public void read() {
-        
+    public Object[] read(Object[] params) throws XMLRPCException {
+        return (Object[]) client.call(OdooConnectorDefaults.EXECUTE, params);
     }
     
-    public Object[] searchAndRead(String model, Object[] params) throws XMLRPCException {
+    public Object[] searchAndRead(Object[] params) throws XMLRPCException {
         return (Object[]) client.call(OdooConnectorDefaults.EXECUTE, params);
     }
     

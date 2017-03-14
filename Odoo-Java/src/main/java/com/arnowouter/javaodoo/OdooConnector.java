@@ -14,8 +14,10 @@ import java.util.HashMap;
  */
 public interface OdooConnector {
     public int authenticate() throws OdooConnectorException;
+    public Object[] getVersion() throws OdooConnectorException;
     public int write(String model, HashMap<String, String> dataToWrite) throws OdooConnectorException;
-    public Object[] read(String model) throws OdooConnectorException;
+    public Object[] read(String model, Object[] requestedIds, Object[] requestedFields) throws OdooConnectorException;
     public Object[] search(String model) throws OdooConnectorException;
+    public Object[] searchAndRead(String model, Object[] requestedFields) throws OdooConnectorException;
     public Object[] searchAndRead(String model, Object[] query, Object[] requestedFields) throws OdooConnectorException;
 }
