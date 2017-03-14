@@ -84,7 +84,20 @@ public class OdooConnectorImpl implements OdooConnector {
     
     @Override
     public int write(String model, HashMap<String, String> dataToWrite) throws OdooConnectorException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.     
+        try {
+            Object[] params = {
+                dbParams.getDatabaseName(),
+                odooUserId,
+                dbParams.getDatabasePassword(),
+                model,
+                OdooConnectorDefaults.ACTION_WRITE,
+                asList(dataToWrite)
+            };
+            
+            return (int) objectClient.write(params);
+        } catch (XMLRPCException ex) {
+            throw new OdooConnectorException(ex.getMessage(), ex);
+        }
     }
 
     @Override

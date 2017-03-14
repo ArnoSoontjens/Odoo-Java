@@ -45,7 +45,7 @@ public class OdooObjectClient {
         return (Object[]) client.call(OdooConnectorDefaults.EXECUTE, params);
     }
     
-    public void write(){
-        
+    public int write(Object[] params) throws XMLRPCException{
+        return (int) client.call(OdooConnectorDefaults.EXECUTE, params);
     }
 }
