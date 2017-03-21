@@ -58,7 +58,6 @@ public class OdooCommonClient {
     }
     
     public OdooVersionInfo getVersion() throws XMLRPCException {
-        
         return new OdooVersionInfo(client.call(OdooConnectorDefaults.ACTION_VERSION_INFO));
     }
 

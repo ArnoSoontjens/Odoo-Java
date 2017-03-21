@@ -6,6 +6,7 @@
 package com.arnowouter.javaodoo;
 
 import com.arnowouter.javaodoo.exceptions.OdooConnectorException;
+import com.arnowouter.javaodoo.supportClasses.OdooVersionInfo;
 import java.util.HashMap;
 
 /**
@@ -14,7 +15,7 @@ import java.util.HashMap;
  */
 public interface OdooConnector {
     public int authenticate() throws OdooConnectorException;
-    public Object getVersion() throws OdooConnectorException;
+    public OdooVersionInfo getVersion() throws OdooConnectorException;
     public Object[] getAllFieldsForModel(String model) throws OdooConnectorException;
     public Object[] read(String model, Object[] requestedIds, Object[] requestedFields) throws OdooConnectorException;
     public Object[] search(String model, Object[] query) throws OdooConnectorException;

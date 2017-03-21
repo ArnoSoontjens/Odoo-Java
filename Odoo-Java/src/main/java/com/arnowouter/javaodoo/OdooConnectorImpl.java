@@ -11,6 +11,7 @@ import com.arnowouter.javaodoo.defaults.OdooConnectorDefaults;
 import com.arnowouter.javaodoo.exceptions.OdooConnectorException;
 import com.arnowouter.javaodoo.exceptions.OdooExceptionMessages;
 import com.arnowouter.javaodoo.supportClasses.OdooDatabaseParams;
+import com.arnowouter.javaodoo.supportClasses.OdooVersionInfo;
 import de.timroes.axmlrpc.XMLRPCException;
 import java.net.MalformedURLException;
 import static java.util.Arrays.asList;
@@ -78,9 +79,9 @@ public class OdooConnectorImpl implements OdooConnector {
     }
     
     @Override
-    public Object getVersion() throws OdooConnectorException {
+    public OdooVersionInfo getVersion() throws OdooConnectorException {
         try {
-            return (Object) commonClient.getVersion();
+            return commonClient.getVersion();
         } catch (XMLRPCException ex) {
             throw new OdooConnectorException(ex.getMessage(), ex);
         }
