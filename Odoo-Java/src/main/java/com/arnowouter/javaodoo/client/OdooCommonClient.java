@@ -7,6 +7,7 @@ package com.arnowouter.javaodoo.client;
 
 import com.arnowouter.javaodoo.defaults.OdooConnectorDefaults;
 import com.arnowouter.javaodoo.supportClasses.OdooDatabaseParams;
+import com.arnowouter.javaodoo.supportClasses.OdooVersionInfo;
 import de.timroes.axmlrpc.XMLRPCException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -56,8 +57,9 @@ public class OdooCommonClient {
         return userID;
     }
     
-    public Object getVersion() throws XMLRPCException {
-        return (Object) client.call(OdooConnectorDefaults.ACTION_VERSION_INFO);
+    public OdooVersionInfo getVersion() throws XMLRPCException {
+        
+        return new OdooVersionInfo(client.call(OdooConnectorDefaults.ACTION_VERSION_INFO));
     }
 
     @Override
