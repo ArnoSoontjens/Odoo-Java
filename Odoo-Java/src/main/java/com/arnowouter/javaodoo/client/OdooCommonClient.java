@@ -22,6 +22,7 @@ public class OdooCommonClient {
     public OdooCommonClient(String protocol, String hostName, boolean HTTPS) throws MalformedURLException {        
         int port = changePortIfHTTPS(HTTPS);
         URL clientURL = new URL(protocol,hostName,port, OdooConnectorDefaults.COMMON_ENDPOINT);
+        System.out.println(clientURL.toString());
         client = OdooClientFactory.createClient(clientURL);
     }
     
@@ -43,13 +44,16 @@ public class OdooCommonClient {
         }
     }
     
-    public int authenticate(OdooDatabaseParams dbParams) throws XMLRPCException {
-        return (int) client.call(OdooConnectorDefaults.ACTION_AUTHENTICATE,
+    public int authenticate(OdooDatabaseParams dbParams) throws XMLRPCException, ClassCastException {
+        System.out.println(dbParams.toString());
+        int userID = (int) client.call(
+                OdooConnectorDefaults.ACTION_AUTHENTICATE,
                 dbParams.getDatabaseName(),
                 dbParams.getDatabaseLogin(),
                 dbParams.getDatabasePassword(),
                 emptyList()
         );
+        return userID;
     }
     
     public Object getVersion() throws XMLRPCException {
