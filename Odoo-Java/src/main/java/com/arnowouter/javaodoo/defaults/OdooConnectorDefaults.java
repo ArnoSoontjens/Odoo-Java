@@ -36,5 +36,7 @@ public class OdooConnectorDefaults {
     
     // OTHER
     public final static int ODOO_DEFAULT_PORT = 8080;
+    public final static int DEFAULT_HTTP_PORT = 80;
+    public final static int DEFAULT_HTTPS_PORT = 443;
     public final static String ODOO_FIELDS = "fields";
 }

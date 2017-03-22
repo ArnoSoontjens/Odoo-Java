@@ -31,6 +31,10 @@ public class OdooDatabaseParams {
     public String getDatabasePassword() {
         return databasePassword;
     }
-    
+
+    @Override
+    public String toString() {
+        return "OdooDatabaseParams{" + "databaseName=" + databaseName + ", databaseLogin=" + databaseLogin + ", databasePassword=" + databasePassword + '}';
+    }
     
 }

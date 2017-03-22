@@ -9,8 +9,7 @@ import com.arnowouter.javaodoo.client.OdooClient;
 import com.arnowouter.javaodoo.client.OdooClientFactory;
 import com.arnowouter.javaodoo.defaults.OdooConnectorDefaults;
 import java.net.MalformedURLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.net.URL;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -24,11 +23,19 @@ import static org.junit.Assert.*;
  */
 public class OdooClientFactoryTest {
     
+    static String hostName;
+    static String protocolHTTP;
+    static String protocolHTTPS;
+    
     public OdooClientFactoryTest() {
     }
     
     @BeforeClass
     public static void setUpClass() {
+        hostName = "demo3.odoo.com";
+        protocolHTTP = "http";
+        protocolHTTPS = "https";
+        
     }
     
     @AfterClass
@@ -47,7 +54,7 @@ public class OdooClientFactoryTest {
     public void shouldCreateOdooClientWithDefaultPort() {
         OdooClient client = null;
         try {
-            client = OdooClientFactory.createClient("http","www.isoltechnics.com",OdooConnectorDefaults.ODOO_DEFAULT_PORT ,OdooConnectorDefaults.COMMON_ENDPOINT);
+            client = OdooClientFactory.createClient(new URL(protocolHTTPS,hostName,OdooConnectorDefaults.ODOO_DEFAULT_PORT ,OdooConnectorDefaults.COMMON_ENDPOINT));
         } catch (MalformedURLException ex) {
             fail(ex.getMessage());
         }
@@ -55,13 +62,15 @@ public class OdooClientFactoryTest {
         assertEquals(OdooClient.class, client.getClass());
     }
     
-    @Test(expected = MalformedURLException.class)
-    public void shouldThrowBecauseBadURL() throws MalformedURLException {
-        OdooClientFactory.createClient("NotRight","www.isoltechnics.com",OdooConnectorDefaults.ODOO_DEFAULT_PORT ,OdooConnectorDefaults.COMMON_ENDPOINT);
-    }
-    
-    @Test(expected = MalformedURLException.class)
-    public void shouldThrowBecauseNegativePortNumber() throws MalformedURLException {
-        OdooClientFactory.createClient("http","www.isoltechnics.com",-1,OdooConnectorDefaults.COMMON_ENDPOINT);
+    @Test
+    public void shouldCreateUnsecureOdooClient() {
+        OdooClient client = null;
+        try {
+            client = OdooClientFactory.createUnsecureClient(new URL(protocolHTTPS,hostName,OdooConnectorDefaults.ODOO_DEFAULT_PORT ,OdooConnectorDefaults.COMMON_ENDPOINT));
+        } catch (MalformedURLException ex) {
+            fail(ex.getMessage());
+        }
+        assertNotNull(client);
+        assertEquals(OdooClient.class, client.getClass());
     }
 }
