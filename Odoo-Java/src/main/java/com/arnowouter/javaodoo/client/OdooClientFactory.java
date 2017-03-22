@@ -15,20 +15,20 @@ import java.net.URL;
  */
 public class OdooClientFactory {
     
-    public static OdooClient createUnsecureClient(URL url) throws MalformedURLException {
+    public static XMLRPCClient createUnsecureClient(URL url) throws MalformedURLException {
         return createClient(url, true);
     }
     
-    public static OdooClient createClient(URL url) throws MalformedURLException {
+    public static XMLRPCClient createClient(URL url) throws MalformedURLException {
         return createClient(url, false);
     }
     
-    private static OdooClient createClient(URL url, boolean ignoreInvalidSSL) throws MalformedURLException {  
-        OdooClient odooClient; 
+    private static XMLRPCClient createClient(URL url, boolean ignoreInvalidSSL) throws MalformedURLException {  
+        XMLRPCClient odooClient; 
         if(ignoreInvalidSSL){
-            odooClient = new OdooClient(url,XMLRPCClient.FLAGS_SSL_IGNORE_INVALID_CERT | XMLRPCClient.FLAGS_SSL_IGNORE_INVALID_HOST); 
+            odooClient = new XMLRPCClient(url,XMLRPCClient.FLAGS_SSL_IGNORE_INVALID_CERT | XMLRPCClient.FLAGS_SSL_IGNORE_INVALID_HOST); 
         } else {
-            odooClient = new OdooClient(url);
+            odooClient = new XMLRPCClient(url);
         }
          
         return odooClient;
