@@ -28,4 +28,5 @@ and a (optional) filter/query.
 
 ### createRecord
 Create new records in a specified model. Supply the model where the new records should be created and a HashMap with the data
-that should be written. This should be a key-value pair, with the name of the field as key and the data as value.
+that should be written. This should be a key-value pair, with the name of the field as key and the data as value. Returns the
+id of the record that was created.
