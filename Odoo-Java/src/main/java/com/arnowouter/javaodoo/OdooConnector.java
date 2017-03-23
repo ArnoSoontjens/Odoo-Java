@@ -17,8 +17,9 @@ public interface OdooConnector {
     public int authenticate() throws OdooConnectorException;
     public OdooVersionInfo getVersion() throws OdooConnectorException;
     public Object[] getAllFieldsForModel(String model) throws OdooConnectorException;
-    public Object[] read(String model, Object[] requestedIds, Object[] requestedFields) throws OdooConnectorException;
-    public Object[] search(String model, Object[] query) throws OdooConnectorException;
+    public Object[] read(String model, int[] requestedIds) throws OdooConnectorException;
+    public Object[] read(String model, int[] requestedIds, Object[] requestedFields) throws OdooConnectorException;
+    public int[] search(String model, Object[] query) throws OdooConnectorException;
     public int count(String model, Object[] query) throws OdooConnectorException;
     public Object[] searchAndRead(String model, Object[] requestedFields) throws OdooConnectorException;
     public Object[] searchAndRead(String model, Object[] query, Object[] requestedFields) throws OdooConnectorException;
