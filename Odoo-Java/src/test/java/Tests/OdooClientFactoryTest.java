@@ -5,9 +5,9 @@
  */
 package Tests;
 
-import com.arnowouter.javaodoo.client.OdooClient;
 import com.arnowouter.javaodoo.client.OdooClientFactory;
 import com.arnowouter.javaodoo.defaults.OdooConnectorDefaults;
+import de.timroes.axmlrpc.XMLRPCClient;
 import java.net.MalformedURLException;
 import java.net.URL;
 import org.junit.After;
@@ -35,7 +35,6 @@ public class OdooClientFactoryTest {
         hostName = "demo3.odoo.com";
         protocolHTTP = "http";
         protocolHTTPS = "https";
-        
     }
     
     @AfterClass
@@ -52,25 +51,25 @@ public class OdooClientFactoryTest {
     
     @Test
     public void shouldCreateOdooClientWithDefaultPort() {
-        OdooClient client = null;
+        XMLRPCClient client = null;
         try {
             client = OdooClientFactory.createClient(new URL(protocolHTTPS,hostName,OdooConnectorDefaults.ODOO_DEFAULT_PORT ,OdooConnectorDefaults.COMMON_ENDPOINT));
         } catch (MalformedURLException ex) {
             fail(ex.getMessage());
         }
         assertNotNull(client);
-        assertEquals(OdooClient.class, client.getClass());
+        assertEquals(XMLRPCClient.class, client.getClass());
     }
     
     @Test
     public void shouldCreateUnsecureOdooClient() {
-        OdooClient client = null;
+        XMLRPCClient client = null;
         try {
             client = OdooClientFactory.createUnsecureClient(new URL(protocolHTTPS,hostName,OdooConnectorDefaults.ODOO_DEFAULT_PORT ,OdooConnectorDefaults.COMMON_ENDPOINT));
         } catch (MalformedURLException ex) {
             fail(ex.getMessage());
         }
         assertNotNull(client);
-        assertEquals(OdooClient.class, client.getClass());
+        assertEquals(XMLRPCClient.class, client.getClass());
     }
 }

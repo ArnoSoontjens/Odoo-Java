@@ -56,14 +56,6 @@ public class OdooConnectorImpl implements OdooConnector {
         createClient();
     }
     
-    private void createClient() throws OdooConnectorException {
-        try {
-            odooClient = new OdooClient(protocol, hostName, connectionPort);
-        } catch (MalformedURLException ex) {
-            throw new OdooConnectorException(ex.getMessage(), ex);
-        }
-    }
-    
     @Override
     public int authenticate() throws OdooConnectorException {
         try {
@@ -105,10 +97,19 @@ public class OdooConnectorImpl implements OdooConnector {
             throw new OdooConnectorException(ex.getMessage(), ex);
         }
     }
-
+    
     @Override
-    public Object[] read(String model, Object[] requestedIds, Object[] requestedFields) throws OdooConnectorException {
+    public Object[] read(String model, int[] requestedIds) throws OdooConnectorException {
+        return read(model, requestedIds, new Object[0]);
+    }
+    
+    @Override
+    public Object[] read(String model, int[] requestedIds, Object[] requestedFields) throws OdooConnectorException {
         if(!isAuthenticated()) throw new OdooConnectorException(OdooExceptionMessages.EX_MSG_NOT_AUTHENTENTICATED);
+        Object[] idsToRead = new Object[requestedIds.length];
+        for(int i=0;i<requestedIds.length;i++) {
+            idsToRead[i] = requestedIds[i];
+        }
         
         try {
             Object[] params = {
@@ -117,7 +118,7 @@ public class OdooConnectorImpl implements OdooConnector {
                 dbParams.getDatabasePassword(),
                 model,
                 OdooConnectorDefaults.ACTION_READ,
-                asList(asList(requestedIds)),
+                asList(asList(idsToRead)),
                 new HashMap() {{
                     put(OdooConnectorDefaults.ODOO_FIELDS, asList(requestedFields));
                 }}
@@ -136,21 +137,17 @@ public class OdooConnectorImpl implements OdooConnector {
     }
 
     @Override
-    public Object[] search(String model, Object[] query) throws OdooConnectorException {
-        try {
-            Object[] params = {
-                dbParams.getDatabaseName(),
-                odooUserId,
-                dbParams.getDatabasePassword(),
-                model,
-                OdooConnectorDefaults.ACTION_SEARCH,
-                asList(asList(query))
-                //TODO: implement offset and limit (pagination)
-            };
-            return (Object[]) odooClient.search(params);
-        } catch (XMLRPCException ex) {
-            throw new OdooConnectorException(ex.getMessage(), ex);
-        }
+    public int[] search(String model, Object[] query) throws OdooConnectorException {
+        Object[] params = {
+            dbParams.getDatabaseName(),
+            odooUserId,
+            dbParams.getDatabasePassword(),
+            model,
+            OdooConnectorDefaults.ACTION_SEARCH,
+            asList(asList(query))
+            //TODO: implement offset and limit (pagination)
+        };
+        return odooClient.search(params);
     }
 
     @Override
@@ -193,5 +190,12 @@ public class OdooConnectorImpl implements OdooConnector {
     private boolean isAuthenticated() {
         return odooUserId != -1;
     }
-
+    
+    private void createClient() throws OdooConnectorException {
+        try {
+            odooClient = new OdooClient(protocol, hostName, connectionPort);
+        } catch (MalformedURLException ex) {
+            throw new OdooConnectorException(ex.getMessage(), ex);
+        }
+    }
 }

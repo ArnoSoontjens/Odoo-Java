@@ -56,7 +56,6 @@ public class OdooClient {
     }
     
     public int authenticate(OdooDatabaseParams dbParams) throws XMLRPCException, ClassCastException {
-        System.out.println(dbParams.toString());
         int userID = (int) commonClient.call(
                 OdooConnectorDefaults.ACTION_AUTHENTICATE,
                 dbParams.getDatabaseName(),
@@ -71,8 +70,20 @@ public class OdooClient {
         return new OdooVersionInfo(commonClient.call(OdooConnectorDefaults.ACTION_VERSION_INFO));
     }
   
-    public Object[] search(Object[] params) throws XMLRPCException {
-        return executeCall(params);
+    public int[] search(Object[] params) {
+        Object[] result;
+        try {
+            result = executeCall(params);
+        } catch (XMLRPCException ex) {
+            return new int[0];
+        }
+        int[] ids = new int[result.length];
+        int i=0;
+        for(Object id : result){
+            ids[i] = (int) id;
+            i++;
+        }
+        return ids;
     }
     
     public Object[] read(Object[] params) throws XMLRPCException {
