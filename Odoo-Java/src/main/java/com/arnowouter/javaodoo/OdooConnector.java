@@ -6,14 +6,18 @@
 package com.arnowouter.javaodoo;
 
 import com.arnowouter.javaodoo.exceptions.OdooConnectorException;
+import com.arnowouter.javaodoo.supportClasses.OdooDatabaseParams;
 import com.arnowouter.javaodoo.supportClasses.OdooVersionInfo;
+import java.net.URL;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
  * @author Arno
  */
 public interface OdooConnector {
+    public Map<String,String> setupTestDataBase(URL url);
     public int authenticate() throws OdooConnectorException;
     public OdooVersionInfo getVersion() throws OdooConnectorException;
     public Object[] getAllFieldsForModel(String model) throws OdooConnectorException;
@@ -26,4 +30,5 @@ public interface OdooConnector {
     public int createRecord(String model, HashMap<String, String> dataToCreate) throws OdooConnectorException;
     public int updateRecord(String model, HashMap<String, String> dataToUpdate) throws OdooConnectorException;
     public void deleteRecords(String model, Object[] idsToBeDeleted) throws OdooConnectorException;
+    public void setDbParams(OdooDatabaseParams dbParams);
 }

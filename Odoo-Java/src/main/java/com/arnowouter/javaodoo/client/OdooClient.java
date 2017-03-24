@@ -13,12 +13,13 @@ import de.timroes.axmlrpc.XMLRPCException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import static java.util.Collections.emptyList;
+import java.util.Map;
 
 /**
  *
  * @author Arno
  */
-public class OdooClient {
+class OdooClient {
     
     XMLRPCClient commonClient;
     XMLRPCClient objectClient;
@@ -96,6 +97,12 @@ public class OdooClient {
     
     public int write(Object[] params) throws XMLRPCException{
         return (int) objectClient.call(OdooConnectorDefaults.EXECUTE, params);
+    }
+    
+    public Map<String,String> callToStartTestDatabase(URL url) throws XMLRPCException {
+        XMLRPCClient client = new XMLRPCClient(url);
+        Map<String, String> info = (Map<String,String>) client.call("start");
+        return info;
     }
     
     private Object[] executeCall(Object[] params) throws XMLRPCException {

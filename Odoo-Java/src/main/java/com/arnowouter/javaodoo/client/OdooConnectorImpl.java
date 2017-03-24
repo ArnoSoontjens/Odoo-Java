@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.arnowouter.javaodoo;
+package com.arnowouter.javaodoo.client;
 
-import com.arnowouter.javaodoo.client.OdooClient;
+import com.arnowouter.javaodoo.OdooConnector;
 import com.arnowouter.javaodoo.defaults.OdooConnectorDefaults;
 import com.arnowouter.javaodoo.exceptions.OdooConnectorException;
 import com.arnowouter.javaodoo.exceptions.OdooExceptionMessages;
@@ -13,8 +13,10 @@ import com.arnowouter.javaodoo.supportClasses.OdooDatabaseParams;
 import com.arnowouter.javaodoo.supportClasses.OdooVersionInfo;
 import de.timroes.axmlrpc.XMLRPCException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import static java.util.Arrays.asList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -27,12 +29,26 @@ public class OdooConnectorImpl implements OdooConnector {
     
     private OdooClient odooClient;
     
-    private final String protocol;
-    private final String hostName;
-    private final int connectionPort;
-    private final OdooDatabaseParams dbParams;
+    private String protocol;
+    private String hostName;
+    private int connectionPort;
+    private OdooDatabaseParams dbParams;
     
     private int odooUserId;
+
+    public OdooConnectorImpl() {
+    }
+
+    public OdooConnectorImpl(String hostName) throws MalformedURLException {
+        URL newURL = new URL(hostName);
+        odooClient = new OdooClient(newURL);
+    }
+    
+    public OdooConnectorImpl(String hostName,OdooDatabaseParams dbParams) throws MalformedURLException {
+        URL newURL = new URL(hostName);
+        this.dbParams = dbParams;
+        odooClient = new OdooClient(newURL);
+    }
     
     public OdooConnectorImpl(String protocol, String hostName, int connectionPort, OdooDatabaseParams dbParams) 
             throws OdooConnectorException 
@@ -51,11 +67,23 @@ public class OdooConnectorImpl implements OdooConnector {
         this.protocol = protocol;
         this.hostName = hostName;
         this.connectionPort = connectionPort;
-        dbParams = new OdooDatabaseParams(databaseName, databaseLogin, databasePassword);
+        this.dbParams = new OdooDatabaseParams(databaseName, databaseLogin, databasePassword);
         this.odooUserId = -1;
         createClient();
     }
     
+    @Override
+    public Map<String,String> setupTestDataBase(URL url) {
+        Map<String, String> info = null;
+        try {
+            OdooClient client = new OdooClient(url);
+            info = client.callToStartTestDatabase(url);
+        } catch (MalformedURLException | XMLRPCException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return info;
+    }
+            
     @Override
     public int authenticate() throws OdooConnectorException {
         try {
@@ -198,4 +226,17 @@ public class OdooConnectorImpl implements OdooConnector {
             throw new OdooConnectorException(ex.getMessage(), ex);
         }
     }
+
+    public void setProtocol(String protocol) {this.protocol = protocol;}
+    public void setHostName(String hostName) {this.hostName = hostName;}
+    public void setConnectionPort(int connectionPort) {this.connectionPort = connectionPort;}
+    public void setDbParams(OdooDatabaseParams dbParams) {this.dbParams = dbParams;}
+    public void setOdooUserId(int odooUserId) {this.odooUserId = odooUserId;}
+
+    public String getProtocol() {return protocol;}
+    public String getHostName() {return hostName;}
+    public int getConnectionPort() {return connectionPort;}
+    public OdooDatabaseParams getDbParams() {return dbParams;}
+    public int getOdooUserId() {return odooUserId;}
+
 }
