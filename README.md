@@ -9,7 +9,7 @@ IOdooConnector odooConnector = new OdooConnector("URL_to_connect_to");
 ```
 This will create a new odooConnector object to connect to the given hostname. 
 
-There also is a possibility to provide a protocol, hostname and port separatly to form the URL:
+There also is a possibility to provide a protocol, hostname and port separately to form the URL:
 ```javascript   
 IOdooConnector odooConnector = new OdooConnector("HTTP", "www.somehostname.com", 8080);
 ```
@@ -24,7 +24,7 @@ IOdooConnector odooConnector = new OdooConnector("URL_to_connect_to");
 dbParams databaseParams = new dbParams("dbName", "dbLogin", "dbPassword");
 odooConnector.setDbParams(databaseParams);
 ```
-Or, alternatively, all parameters can be passed separatly to the constructor:
+Or, alternatively, all parameters can be passed separately to the constructor:
 ```javascript   
 IOdooConnector odooConnector = new OdooConnector("protocol", "hostName", "connectionPort","dbName", "dbLogin", "dbPassword"); 
 ```
