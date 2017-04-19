@@ -17,6 +17,8 @@ import static java.util.Arrays.asList;
 import java.util.HashMap;
 import java.util.Map;
 import com.arnowouter.javaodoo.IOdooConnector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author  Arno Soontjens
@@ -47,10 +49,36 @@ public class OdooConnector implements IOdooConnector {
         odooClient = new OdooClient(newURL,ignoreInvalidSSL);
     }
     
+    public OdooConnector(String protocol, String hostName, int connectionPort) throws OdooConnectorException {
+        this(protocol,hostName,connectionPort,false);
+    }
+    
+    public OdooConnector(String protocol, String hostName, int connectionPort, boolean ignoreInvalidSSL) 
+            throws OdooConnectorException 
+    {
+        this.protocol = protocol;
+        this.hostName = hostName;
+        this.connectionPort = connectionPort;
+        try {
+            URL newURL = new URL(protocol,hostName,String.valueOf(connectionPort));
+            odooClient = new OdooClient(newURL,ignoreInvalidSSL);
+        } catch (MalformedURLException ex) {
+            throw new OdooConnectorException(ex.getMessage(), ex);
+        }
+    }
+    
+    public OdooConnector(String hostName,OdooDatabaseParams dbParams) throws MalformedURLException {
+        this(hostName,dbParams,false);
+    }
+    
     public OdooConnector(String hostName,OdooDatabaseParams dbParams, boolean ignoreInvalidSSL) throws MalformedURLException {
         URL newURL = new URL(hostName);
         this.dbParams = dbParams;
         odooClient = new OdooClient(newURL, ignoreInvalidSSL);
+    }
+    
+    public OdooConnector(String protocol, String hostName, int connectionPort, OdooDatabaseParams dbParams) throws OdooConnectorException {
+        this(protocol,hostName,connectionPort,false);
     }
     
     public OdooConnector(String protocol, String hostName, int connectionPort, OdooDatabaseParams dbParams, boolean ignoreInvalidSSL) 
@@ -263,6 +291,7 @@ public class OdooConnector implements IOdooConnector {
     public void setProtocol(String protocol) {this.protocol = protocol;}
     public void setHostName(String hostName) {this.hostName = hostName;}
     public void setConnectionPort(int connectionPort) {this.connectionPort = connectionPort;}
+    @Override
     public void setDbParams(OdooDatabaseParams dbParams) {this.dbParams = dbParams;}
     public void setOdooUserId(int odooUserId) {this.odooUserId = odooUserId;}
 
