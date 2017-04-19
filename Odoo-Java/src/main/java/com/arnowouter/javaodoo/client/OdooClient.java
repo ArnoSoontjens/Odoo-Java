@@ -77,6 +77,10 @@ public class OdooClient {
         return userID;
     }
     
+    public Object updateGeoLocation(Object[] params) throws XMLRPCException {
+        return objectClient.call("exec_workflow", params);
+    }
+    
     public OdooVersionInfo getVersion() throws XMLRPCException {
         return new OdooVersionInfo(commonClient.call(OdooConnectorDefaults.ACTION_VERSION_INFO));
     }
