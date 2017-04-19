@@ -41,12 +41,38 @@ Returns a user id that will be used in future calls to Odoo. Getting a user id m
 
 ### search
 Supply this method with the name of the model you are searching in, and a (optional) filter. Will return all of the id's in the 
-model if used without filter, and all of the ids that match your query if used with a filter.
-
+model if used with an empty query, and all of the ids that match your query in the case a query is passed to the function.
+Returns all id's in the "sale.order" model:
+```javascript
+Object[] query = {};
+int[] ids = odooConnector.search("sale.order",query);
+```
+Returns only the id's of the records that match the provided user id and where the field "active" is set to true:
+```javascript
+Object[] query = {
+    asList("id", "=", userId),
+    asList("active", "=", true)
+};
+int[] ids = odooConnector.search("sale.order",query);
+```
 ### read
 Supply  this method with the name of the model you are trying to read from, the ids of the records you want to read and the 
 fields you would like to read. The function will return an object with the searched fields of the requested records.
-
+Returns all fields for the records with the requested id's:
+```javascript
+int[] ids = {1,2,3,4,5};
+Object[] result = odooConnector.read("sale.order",ids);
+```
+Returns only the requested fields(id, name and project ID) for the records with requested id's:
+```javascript
+int[] ids = {1,2,3,4,5};
+Object[] requestedFields = {
+      "id",
+      "name",
+      "project_id"
+};
+Object[] result = odooConnector.read("sale.order",ids, requestedFields);
+```
 ### searchAndRead
 Performs a search and read at the same time. Supply this function with the model you would like to read from, the requested fields
 and a (optional) filter/query.
