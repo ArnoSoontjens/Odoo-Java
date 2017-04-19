@@ -88,7 +88,7 @@ Object[] filter = {
     asList("active", "=", true)
 };
 
-Object[] tasksForUser = odooConnector.searchAndRead("sale.order", filter, requestedFields);
+Object[] result = odooConnector.searchAndRead("sale.order", filter, requestedFields);
 ```
 ### createRecord
 Create new records in a specified model. Supply the model where the new records should be created and a HashMap with the data
