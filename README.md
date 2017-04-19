@@ -3,9 +3,23 @@ This library uses XML-RPC to connect to the Odoo ERP system, using Java. This li
 Depends on the <a href="https://github.com/gturri/aXMLRPC">aXMLRPC</a> library by Tim Roes. 
 
 ## Usage
-Create a new instance of the OdooConnector and call methods from there. 
-You can directly supply all parameters to the OdooConnector constructor, or create a DataBaseParamers object 
-first and pass that to the OdooConnector constructor.
+Create a new instance of the OdooConnector (using the interface) and provide a URL.
+
+IOdooConnector odooConnector = new OdooConnector("URL_to_connect_to");
+
+This will create a new odooConnector object to connect to the given hostname. 
+
+There also is a possibility to provide a protocol, hostname and port separatly to form the URL:
+
+IOdooConnector odooConnector = new OdooConnector("HTTP", "www.somehostname.com", 8080);
+
+To connect to the Odoo database, you will need to provide a login, password and databasename. These parameters can be provided directly to the constructor:
+
+IOdooConnector odooConnector = new OdooConnector("URL_to_connect_to", );
+
+If this connection uses SSL, a check for valid certificate and hostname will be run when calling methods on the odooConnector. If you are not using a valid or self-signed certificate, use false as a second parameter to the constructor to skip that check, like this (and can be done in the same way for all constructors):
+
+IOdooConnector odooConnector = new OdooConnector("URL_to_connect_to", false);
 
 ### getVersion
 Get information about the Odoo server you are connecting to. Getting version information means the connection to the server is ok.
