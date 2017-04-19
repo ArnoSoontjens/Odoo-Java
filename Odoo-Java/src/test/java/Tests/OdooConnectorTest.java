@@ -5,8 +5,7 @@
  */
 package Tests;
 
-import com.arnowouter.javaodoo.OdooConnector;
-import com.arnowouter.javaodoo.client.OdooConnectorImpl;
+import com.arnowouter.javaodoo.client.OdooConnector;
 import com.arnowouter.javaodoo.exceptions.OdooConnectorException;
 import com.arnowouter.javaodoo.supportClasses.OdooDatabaseParams;
 import com.arnowouter.javaodoo.supportClasses.OdooVersionInfo;
@@ -20,21 +19,22 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
+import com.arnowouter.javaodoo.IOdooConnector;
 
 /**
  *
  * @author Arno
  */
 public class OdooConnectorTest {
-    static OdooConnector testDBConnector;
-    static OdooConnector odooConnector;
+    static IOdooConnector testDBConnector;
+    static IOdooConnector odooConnector;
     static OdooDatabaseParams dbParams;
     static int userID;
     static String odooHostName, databaseLogin, databaseName, databasePassword;
     
     @BeforeClass
     public static void setUpClass() throws MalformedURLException, OdooConnectorException {
-        testDBConnector = new OdooConnectorImpl();
+        testDBConnector = new OdooConnector();
         String hostName = "demo.odoo.com";
         String protocolHTTP = "http";
 
@@ -52,7 +52,7 @@ public class OdooConnectorTest {
         System.out.println("Password: " + databasePassword);
 
         dbParams = new OdooDatabaseParams(databaseName, databaseLogin, databasePassword);
-        odooConnector = new OdooConnectorImpl(odooHostName, false);
+        odooConnector = new OdooConnector(odooHostName, false);
         odooConnector.setDbParams(dbParams);
 
         System.out.println(odooConnector.getVersion());

@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * @author Arno
  */
-public interface OdooConnector {
+public interface IOdooConnector {
     public Map<String,String> setupTestDataBase(URL url);
     public int authenticate() throws OdooConnectorException;
     public Object geoLocalize(int id) throws OdooConnectorException;

@@ -5,7 +5,6 @@
  */
 package com.arnowouter.javaodoo.client;
 
-import com.arnowouter.javaodoo.OdooConnector;
 import com.arnowouter.javaodoo.defaults.OdooConnectorDefaults;
 import com.arnowouter.javaodoo.exceptions.OdooConnectorException;
 import com.arnowouter.javaodoo.exceptions.OdooExceptionMessages;
@@ -17,8 +16,7 @@ import java.net.URL;
 import static java.util.Arrays.asList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.arnowouter.javaodoo.IOdooConnector;
 /**
  *
  * @author  Arno Soontjens
@@ -26,7 +24,7 @@ import java.util.logging.Logger;
  */
 
 
-public class OdooConnectorImpl implements OdooConnector {
+public class OdooConnector implements IOdooConnector {
     
     private OdooClient odooClient;
     
@@ -37,25 +35,25 @@ public class OdooConnectorImpl implements OdooConnector {
     
     private int odooUserId;
 
-    public OdooConnectorImpl() {
+    public OdooConnector() {
     }
     
-    public OdooConnectorImpl(String hostName) throws MalformedURLException{
+    public OdooConnector(String hostName) throws MalformedURLException{
         this(hostName, false);
     }
     
-    public OdooConnectorImpl(String hostName, boolean ignoreInvalidSSL) throws MalformedURLException {
+    public OdooConnector(String hostName, boolean ignoreInvalidSSL) throws MalformedURLException {
         URL newURL = new URL(hostName);
         odooClient = new OdooClient(newURL,ignoreInvalidSSL);
     }
     
-    public OdooConnectorImpl(String hostName,OdooDatabaseParams dbParams, boolean ignoreInvalidSSL) throws MalformedURLException {
+    public OdooConnector(String hostName,OdooDatabaseParams dbParams, boolean ignoreInvalidSSL) throws MalformedURLException {
         URL newURL = new URL(hostName);
         this.dbParams = dbParams;
         odooClient = new OdooClient(newURL, ignoreInvalidSSL);
     }
     
-    public OdooConnectorImpl(String protocol, String hostName, int connectionPort, OdooDatabaseParams dbParams, boolean ignoreInvalidSSL) 
+    public OdooConnector(String protocol, String hostName, int connectionPort, OdooDatabaseParams dbParams, boolean ignoreInvalidSSL) 
             throws OdooConnectorException 
     {
         this.protocol = protocol;
@@ -66,7 +64,7 @@ public class OdooConnectorImpl implements OdooConnector {
         createClient(ignoreInvalidSSL);
     }
   
-    public OdooConnectorImpl(String protocol, String hostName, int connectionPort, String databaseName, String databaseLogin, String databasePassword, boolean ignoreInvalidSSL) 
+    public OdooConnector(String protocol, String hostName, int connectionPort, String databaseName, String databaseLogin, String databasePassword, boolean ignoreInvalidSSL) 
             throws OdooConnectorException 
     {
         this.protocol = protocol;
