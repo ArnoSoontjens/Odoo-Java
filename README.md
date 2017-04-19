@@ -13,9 +13,20 @@ There also is a possibility to provide a protocol, hostname and port separatly t
 ```javascript   
 IOdooConnector odooConnector = new OdooConnector("HTTP", "www.somehostname.com", 8080);
 ```
-To connect to the Odoo database, you will need to provide a login, password and databasename. These parameters can be provided directly to the constructor:
+To connect to the Odoo database, you will need to provide a login, password and databasename. These parameters can be added by making use of the ```dbParams``` object and used as a parameter when calling the constructor:
 ```javascript
-IOdooConnector odooConnector = new OdooConnector("URL_to_connect_to", );
+dbParams databaseParams = new dbParams("dbName", "dbLogin", "dbPassword");
+IOdooConnector odooConnector = new OdooConnector("URL_to_connect_to", databaseParams);
+```
+Or can be added later:
+```javascript
+IOdooConnector odooConnector = new OdooConnector("URL_to_connect_to");
+dbParams databaseParams = new dbParams("dbName", "dbLogin", "dbPassword");
+odooConnector.setDbParams(databaseParams);
+```
+Or, alternativly, all parameters can be passed separatly to the constructor:
+```javascript   
+IOdooConnector odooConnector = new OdooConnector("protocol", "hostName", "connectionPort","dbName", "dbLogin", "dbPassword"); 
 ```
 If this connection uses SSL, a check for valid certificate and hostname will be run when calling methods on the odooConnector. If you are not using a valid or self-signed certificate, use false as a second parameter to the constructor to skip that check, like this (and can be done in the same way for all constructors):
 ```javascript   
