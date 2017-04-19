@@ -19,6 +19,7 @@ import java.util.Map;
 public interface OdooConnector {
     public Map<String,String> setupTestDataBase(URL url);
     public int authenticate() throws OdooConnectorException;
+    public Object geoLocalize(int id) throws OdooConnectorException;
     public OdooVersionInfo getVersion() throws OdooConnectorException;
     public Object[] getAllFieldsForModel(String model) throws OdooConnectorException;
     public Object[] read(String model, int[] requestedIds) throws OdooConnectorException;

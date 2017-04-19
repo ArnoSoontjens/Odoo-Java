@@ -17,6 +17,8 @@ import java.net.URL;
 import static java.util.Arrays.asList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author  Arno Soontjens
@@ -110,6 +112,32 @@ public class OdooConnectorImpl implements OdooConnector {
     public Object[] getAllFieldsForModel(String model) throws OdooConnectorException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    
+    @Override
+    public Object geoLocalize(int id) throws OdooConnectorException {
+       /* Object[] idsToUpdate = new Object[ids.length];
+        for(int i=0;i<ids.length;i++) {
+            idsToUpdate[i] = ids[i];
+        }*/
+        
+        try {
+            Object[] params = {
+                dbParams.getDatabaseName(),
+                odooUserId,
+                dbParams.getDatabasePassword(),
+                "res.partner",
+                OdooConnectorDefaults.ACTION_UPDATE_LOCATION,
+                asList(id)
+            };
+
+            return (Object) odooClient.updateGeoLocation(params);
+        } catch (XMLRPCException ex) {
+            System.out.println(ex.getMessage());
+            throw new OdooConnectorException(ex.getMessage(), ex);
+        }
+    }
+    
     
     @Override
     public int createRecord(String model, HashMap<String, String> dataToWrite) throws OdooConnectorException {
