@@ -291,6 +291,7 @@ public class OdooConnector implements IOdooConnector {
     public void setProtocol(String protocol) {this.protocol = protocol;}
     public void setHostName(String hostName) {this.hostName = hostName;}
     public void setConnectionPort(int connectionPort) {this.connectionPort = connectionPort;}
+    @Override
     public void setDbParams(OdooDatabaseParams dbParams) {this.dbParams = dbParams;}
     public void setOdooUserId(int odooUserId) {this.odooUserId = odooUserId;}
 
