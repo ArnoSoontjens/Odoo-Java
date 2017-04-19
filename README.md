@@ -24,7 +24,7 @@ IOdooConnector odooConnector = new OdooConnector("URL_to_connect_to");
 dbParams databaseParams = new dbParams("dbName", "dbLogin", "dbPassword");
 odooConnector.setDbParams(databaseParams);
 ```
-Or, alternativly, all parameters can be passed separatly to the constructor:
+Or, alternatively, all parameters can be passed separatly to the constructor:
 ```javascript   
 IOdooConnector odooConnector = new OdooConnector("protocol", "hostName", "connectionPort","dbName", "dbLogin", "dbPassword"); 
 ```
