@@ -41,8 +41,8 @@ public class OdooClient {
     
     public OdooClient(String protocol, String hostName, boolean HTTPS, boolean ignoreInvalidSSL) throws MalformedURLException {
         int port = changePortIfHTTPS(HTTPS);
-        URL commonClientURL = new URL(protocol,hostName,OdooConnectorDefaults.DEFAULT_HTTPS_PORT, OdooConnectorDefaults.COMMON_ENDPOINT);
-        URL objectClientURL = new URL(protocol,hostName,OdooConnectorDefaults.DEFAULT_HTTPS_PORT, OdooConnectorDefaults.OBJECT_ENDPOINT);
+        URL commonClientURL = new URL(protocol,hostName,port, OdooConnectorDefaults.COMMON_ENDPOINT);
+        URL objectClientURL = new URL(protocol,hostName,port, OdooConnectorDefaults.OBJECT_ENDPOINT);
         objectClient = createClient(objectClientURL, ignoreInvalidSSL);
         commonClient = createClient(commonClientURL, ignoreInvalidSSL);
     }
@@ -86,12 +86,7 @@ public class OdooClient {
     }
   
     public int[] search(Object[] params) throws XMLRPCException {
-        Object[] result;
-        //try {
-            result = executeCall(params);
-        /*} catch (XMLRPCException ex) {
-            return new int[0];
-        }*/
+        Object[] result = executeCall(params);
         int[] ids = new int[result.length];
         int i=0;
         for(Object id : result){
