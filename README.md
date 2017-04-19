@@ -74,9 +74,22 @@ Object[] requestedFields = {
 Object[] result = odooConnector.read("sale.order",ids, requestedFields);
 ```
 ### searchAndRead
-Performs a search and read at the same time. Supply this function with the model you would like to read from, the requested fields
-and a (optional) filter/query.
+Performs a search and read at the same time. Supply this function with the model you would like to read from, the requested fields and a (optional) filter/query.
+This method combines the search and read functions that were used earlier: 
+```javascript
+Object[] requestedFields = {
+    "id"
+    "name",
+    "project_id"
+};
 
+Object[] filter = {
+    asList("id", "=", userId),
+    asList("active", "=", true)
+};
+
+Object[] tasksForUser = odooConnector.searchAndRead("sale.order", filter, requestedFields);
+```
 ### createRecord
 Create new records in a specified model. Supply the model where the new records should be created and a HashMap with the data
 that should be written. This should be a key-value pair, with the name of the field as key and the data as value. Returns the
