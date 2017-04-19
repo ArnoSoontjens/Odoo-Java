@@ -28,7 +28,7 @@ Or, alternatively, all parameters can be passed separately to the constructor:
 ```javascript   
 IOdooConnector odooConnector = new OdooConnector("protocol", "hostName", "connectionPort","dbName", "dbLogin", "dbPassword"); 
 ```
-If this connection uses SSL, a check for valid certificate and hostname will be run when calling methods on the odooConnector. If you are not using a valid or self-signed certificate, use false as a second parameter to the constructor to skip that check, like this (and can be done in the same way for all constructors):
+If this connection uses SSL, a check for valid certificate and hostname will be run when calling methods on the odooConnector. If you are not using a valid or are using a self-signed certificate, use ```false``` as a second parameter to the constructor to skip that check, like this (and can be done in the same way for all constructors):
 ```javascript   
 IOdooConnector odooConnector = new OdooConnector("URL_to_connect_to", false);
 ```
