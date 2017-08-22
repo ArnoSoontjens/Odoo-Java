@@ -25,9 +25,12 @@ public class OdooQuery {
         };
         query = q;
     }
-
-    public Object[] getQueryObject() {
-        return query;
+    
+    public OdooQuery(Object[] query) {
+        this.query = query;
     }
     
+    public Object[] getQueryObject() {
+        return query;
+    }   
 }

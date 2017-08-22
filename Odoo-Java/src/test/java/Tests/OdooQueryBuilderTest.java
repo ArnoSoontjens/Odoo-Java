@@ -55,4 +55,11 @@ public class OdooQueryBuilderTest {
         assertEquals(OdooQuery.class, query.getClass());
         assertEquals(Object[].class, query.getQueryObject().getClass());  
     }
+    
+    @Test
+    public void shouldBuildEmptyQuery() {
+        OdooQuery query = queryBuilder.buildEmptyQuery();
+        assertNotNull(query);
+        assertTrue(query.getQueryObject().length == 0);
+    }
 }

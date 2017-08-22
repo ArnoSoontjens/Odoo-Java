@@ -20,6 +20,10 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
 import com.arnowouter.javaodoo.IOdooConnector;
+import com.arnowouter.javaodoo.exceptions.OdooQueryException;
+import com.arnowouter.javaodoo.supportClasses.OdooQuery;
+import com.arnowouter.javaodoo.supportClasses.OdooQueryBuilder;
+import static java.util.Arrays.asList;
 
 /**
  *
@@ -107,9 +111,8 @@ public class OdooConnectorTest {
     }
     
     @Test
-    public void shouldReadWithoutQuery() throws OdooConnectorException {
+    public void shouldRead() throws OdooConnectorException {
         int[] ids = {1,2,4,5,484,4484,1454,484,4541,5564};
-        Object[] query = {};
 
         Object[] result = odooConnector.read("sale.order",ids);
         for(Object res : result){
@@ -117,5 +120,31 @@ public class OdooConnectorTest {
         }
         assertNotNull(result);
         assertTrue(result.length>0);
+    }
+    
+    @Test
+    public void shouldSearchWithSelfDefinedQuery() throws OdooConnectorException {
+        Object[] query = {
+            asList("id", ">", "10")
+        };
+        
+        int[] result = odooConnector.search("sale.order",query);
+        for(int res : result){
+            System.out.println("Saleorder (self defined query): " + res);
+        }
+        assertNotNull(result);
+        assertTrue(result.length > 1);
+    }
+    
+    @Test
+    public void shouldReadWithBuiltQuery() throws OdooQueryException, OdooConnectorException {
+        OdooQueryBuilder builder = new OdooQueryBuilder();
+        OdooQuery query = builder.searchField("id").forValueBiggerThan("10").build();
+        int[] result = odooConnector.search("sale.order",query);
+        for(int res : result){
+            System.out.println("Saleorder (query with builder): " + res);
+        }
+        assertNotNull(result);
+        assertTrue(result.length > 1);
     }
 }

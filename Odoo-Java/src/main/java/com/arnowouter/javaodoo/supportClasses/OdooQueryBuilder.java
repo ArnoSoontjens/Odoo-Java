@@ -39,6 +39,11 @@ public class OdooQueryBuilder {
         return this;
     }
     
+    public OdooQuery buildEmptyQuery() {
+        Object[] q ={}; 
+        return new OdooQuery(q);
+    }
+    
     public OdooQuery build() throws OdooQueryException {
         performNullChecks();
         return new OdooQuery(field, operator, value);
