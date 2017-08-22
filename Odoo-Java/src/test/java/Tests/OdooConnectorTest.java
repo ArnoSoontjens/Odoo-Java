@@ -101,9 +101,21 @@ public class OdooConnectorTest {
         int[] ids = odooConnector.search("not.existing.model",query);
         assertTrue(ids.length == 0);
     }
+    
     @Test
-    public void shouldSearchWithoutQuery() throws OdooConnectorException {
+    public void shouldSearchWithSelfDefinedEmptyQuery() throws OdooConnectorException {
         Object[] query = {};
+        int[] ids = odooConnector.search("sale.order",query);
+        for(int i=0;i<ids.length;i++){
+            System.out.println(ids[i]);
+        }
+    }
+    
+    @Test
+    public void shouldSearchWithBuiltEmptyQuery() throws OdooConnectorException {
+        OdooQueryBuilder builder = new OdooQueryBuilder();
+        OdooQuery query = builder.buildEmptyQuery();
+        
         int[] ids = odooConnector.search("sale.order",query);
         for(int i=0;i<ids.length;i++){
             System.out.println(ids[i]);
@@ -140,6 +152,7 @@ public class OdooConnectorTest {
     public void shouldReadWithBuiltQuery() throws OdooQueryException, OdooConnectorException {
         OdooQueryBuilder builder = new OdooQueryBuilder();
         OdooQuery query = builder.searchField("id").forValueBiggerThan("10").build();
+        
         int[] result = odooConnector.search("sale.order",query);
         for(int res : result){
             System.out.println("Saleorder (query with builder): " + res);
