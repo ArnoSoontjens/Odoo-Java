@@ -17,6 +17,7 @@ import static java.util.Arrays.asList;
 import java.util.HashMap;
 import java.util.Map;
 import com.arnowouter.javaodoo.IOdooConnector;
+import com.arnowouter.javaodoo.supportClasses.OdooQuery;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
@@ -216,9 +217,19 @@ public class OdooConnector implements IOdooConnector {
     }
     
     @Override
+    public int count(String model, OdooQuery query) throws OdooConnectorException {
+        return count(model, query.getQueryObject());
+    }
+    
+    @Override
     public int count(String model, Object[] query) throws OdooConnectorException {
         //TODO: implement this
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public int[] search(String model, OdooQuery query) throws OdooConnectorException {
+        return search(model, query.getQueryObject());
     }
 
     @Override
@@ -244,7 +255,11 @@ public class OdooConnector implements IOdooConnector {
         return searchAndRead(model, new Object[0],requestedFields);
     }
     
-
+    @Override
+    public Object[] searchAndRead(String model, OdooQuery query, Object[] requestedFields) throws OdooConnectorException {
+        return searchAndRead(model, query.getQueryObject(), requestedFields);
+    }
+    
     @Override
     public Object[] searchAndRead(String model, Object[] query, Object[] requestedFields) throws OdooConnectorException {
         if(!isAuthenticated()) throw new OdooConnectorException(OdooExceptionMessages.EX_MSG_NOT_AUTHENTENTICATED);
@@ -300,5 +315,4 @@ public class OdooConnector implements IOdooConnector {
     public int getConnectionPort() {return connectionPort;}
     public OdooDatabaseParams getDbParams() {return dbParams;}
     public int getOdooUserId() {return odooUserId;}
-
 }
