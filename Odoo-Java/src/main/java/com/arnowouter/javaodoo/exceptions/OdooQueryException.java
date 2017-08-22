@@ -9,7 +9,7 @@ package com.arnowouter.javaodoo.exceptions;
  *
  * @author Arno
  */
-public class OdooQueryException extends Exception {
+public class OdooQueryException extends OdooConnectorException {
 
     public OdooQueryException() {
     }
