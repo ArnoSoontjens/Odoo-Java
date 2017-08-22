@@ -57,6 +57,22 @@ public class OdooQueryBuilderTest {
     }
     
     @Test
+    public void shouldReturnValidQueryUsingInt() throws OdooQueryException {
+        OdooQuery query = queryBuilder.searchField("a_field").forValueEqualTo(10).build();
+        assertNotNull(query);
+        assertEquals(OdooQuery.class, query.getClass());
+        assertEquals(Object[].class, query.getQueryObject().getClass());  
+    }
+    
+    @Test
+    public void shouldReturnValidQueryUsingString() throws OdooQueryException {
+        OdooQuery query = queryBuilder.searchField("a_field").forValueEqualTo("10").build();
+        assertNotNull(query);
+        assertEquals(OdooQuery.class, query.getClass());
+        assertEquals(Object[].class, query.getQueryObject().getClass());  
+    }
+    
+    @Test
     public void shouldBuildEmptyQuery() {
         OdooQuery query = queryBuilder.buildEmptyQuery();
         assertNotNull(query);

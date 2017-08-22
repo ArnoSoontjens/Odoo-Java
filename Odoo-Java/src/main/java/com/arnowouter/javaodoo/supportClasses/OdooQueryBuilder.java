@@ -33,6 +33,11 @@ public class OdooQueryBuilder {
         return this;
     }
     
+    public OdooQueryBuilder forValueEqualTo(int value) {
+        String valueString = value+"";
+        return forValueEqualTo(valueString);
+    }
+    
     public OdooQueryBuilder forValueEqualTo(String value) {
         this.value = value;
         this.operator = OdooQuery.EQUALS;
