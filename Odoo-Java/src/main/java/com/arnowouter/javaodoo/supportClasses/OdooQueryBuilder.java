@@ -10,7 +10,7 @@ import com.arnowouter.javaodoo.exceptions.OdooQueryException;
 public class OdooQueryBuilder {
     
     private String field;
-    private String value;
+    private Object value;
     private String operator;
     
     public OdooQueryBuilder() {
@@ -21,30 +21,19 @@ public class OdooQueryBuilder {
         return this;
     }
     
-    public OdooQueryBuilder forValueBiggerThan(int value) {
-        return forValueBiggerThan(Integer.toString(value));
-    }
-    
-    public OdooQueryBuilder forValueBiggerThan(String value) {
+    public OdooQueryBuilder forValueBiggerThan(Object value) {
         this.value = value;
         this.operator = OdooQuery.BIGGER_THAN;
         return this;
     }
-    public OdooQueryBuilder forValueSmallerThan(int value) {
-        return forValueSmallerThan(Integer.toString(value));
-    }
     
-    public OdooQueryBuilder forValueSmallerThan(String value) {
+    public OdooQueryBuilder forValueSmallerThan(Object value) {
         this.value = value;
         this.operator = OdooQuery.SMALLER_THAN;
         return this;
     }
-    
-    public OdooQueryBuilder forValueEqualTo(int value) {
-        return forValueEqualTo(Integer.toString(value));
-    }
-    
-    public OdooQueryBuilder forValueEqualTo(String value) {
+
+    public OdooQueryBuilder forValueEqualTo(Object value) {
         this.value = value;
         this.operator = OdooQuery.EQUALS;
         return this;
