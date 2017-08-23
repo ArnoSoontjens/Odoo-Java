@@ -109,6 +109,8 @@ public class OdooConnectorTest {
         for(int i=0;i<ids.length;i++){
             System.out.println(ids[i]);
         }
+        assertNotNull(ids);
+        assertTrue(ids.length >= 1);
     }
     
     @Test
@@ -120,6 +122,8 @@ public class OdooConnectorTest {
         for(int i=0;i<ids.length;i++){
             System.out.println("With query using builder: " + ids[i]);
         }
+        assertNotNull(ids);
+        assertTrue(ids.length >= 1);
     }
     
     @Test
