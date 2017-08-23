@@ -18,10 +18,16 @@ public class OdooQuery {
     public static final String SMALLER_THAN = "<";
     
     private Object[] query;
-
-    public OdooQuery(String fieldToBeSearched, String operator, String searchedForObject) {
+    private String operator;
+    private String field;
+    private Object searched;
+    
+    public OdooQuery(String fieldToBeSearched, String operator, Object searchedForObject) {
+        this.operator = operator;
+        this.field = fieldToBeSearched;
+        this.searched = searchedForObject;
         Object[] q = {
-            asList(fieldToBeSearched, operator, searchedForObject)
+            asList(this.field,this.operator, this.searched)
         };
         query = q;
     }
@@ -33,4 +39,10 @@ public class OdooQuery {
     public Object[] getQueryObject() {
         return query;
     }   
+
+    @Override
+    public String toString() {
+        return "OdooQuery{" + "query=" + query + ", operator=" + operator + ", field=" + field + ", searched=" + searched + '}';
+    }
+    
 }

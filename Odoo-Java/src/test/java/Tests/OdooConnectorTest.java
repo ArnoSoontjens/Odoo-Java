@@ -118,7 +118,7 @@ public class OdooConnectorTest {
         
         int[] ids = odooConnector.search("sale.order",query);
         for(int i=0;i<ids.length;i++){
-            System.out.println(ids[i]);
+            System.out.println("With query using builder: " + ids[i]);
         }
     }
     
@@ -149,15 +149,55 @@ public class OdooConnectorTest {
     }
     
     @Test
+    public void shouldSearchWithSelfDefinedEqualQuery() throws OdooConnectorException {
+        Object[] query = {
+            asList("id", "=", "10")
+        };
+        
+        int[] result = odooConnector.search("sale.order",query);
+        for(int res : result){
+            System.out.println("Saleorder (self defined query): " + res);
+        }
+        assertNotNull(result);
+        assertTrue(result.length == 1);
+    }
+    
+    @Test
     public void shouldReadWithBuiltQuery() throws OdooQueryException, OdooConnectorException {
         OdooQueryBuilder builder = new OdooQueryBuilder();
         OdooQuery query = builder.searchField("id").forValueBiggerThan("10").build();
         
         int[] result = odooConnector.search("sale.order",query);
         for(int res : result){
-            System.out.println("Saleorder (query with builder): " + res);
+            System.out.println("Saleorder With query using builder: " + res);
         }
         assertNotNull(result);
         assertTrue(result.length > 1);
+    }
+    
+    @Test
+    public void shouldFindSaleOrderWithId10UsingInt() throws OdooQueryException, OdooConnectorException {
+        OdooQueryBuilder builder = new OdooQueryBuilder();
+        OdooQuery query = builder.searchField("id").forValueEqualTo(10).build();
+        
+        int[] result = odooConnector.search("sale.order",query);
+        for(int res : result){
+            System.out.println("Saleorder With query using builder: " + res);
+        }
+        assertNotNull(result);
+        assertTrue(result.length == 1);
+    }
+    
+    @Test
+    public void shouldFindSaleOrderWithId10UsingString() throws OdooQueryException, OdooConnectorException {
+        OdooQueryBuilder builder = new OdooQueryBuilder();
+        OdooQuery query = builder.searchField("id").forValueEqualTo("10").build();
+        
+        int[] result = odooConnector.search("sale.order",query);
+        for(int res : result){
+            System.out.println("Saleorder (query with builder): " + res);
+        }
+        assertNotNull(result);
+        assertTrue(result.length == 1);
     }
 }

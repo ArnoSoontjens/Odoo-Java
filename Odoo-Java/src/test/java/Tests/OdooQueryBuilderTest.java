@@ -53,7 +53,8 @@ public class OdooQueryBuilderTest {
         OdooQuery query = queryBuilder.searchField("a_field").forValueBiggerThan("10").build();
         assertNotNull(query);
         assertEquals(OdooQuery.class, query.getClass());
-        assertEquals(Object[].class, query.getQueryObject().getClass());  
+        assertEquals(Object[].class, query.getQueryObject().getClass()); 
+        System.out.println("Valid query using string value: " +query.toString());
     }
     
     @Test
@@ -61,7 +62,8 @@ public class OdooQueryBuilderTest {
         OdooQuery query = queryBuilder.searchField("a_field").forValueEqualTo(10).build();
         assertNotNull(query);
         assertEquals(OdooQuery.class, query.getClass());
-        assertEquals(Object[].class, query.getQueryObject().getClass());  
+        assertEquals(Object[].class, query.getQueryObject().getClass()); 
+        System.out.println("Valid query using int value: " +query.toString());
     }
     
     @Test
@@ -70,6 +72,7 @@ public class OdooQueryBuilderTest {
         assertNotNull(query);
         assertEquals(OdooQuery.class, query.getClass());
         assertEquals(Object[].class, query.getQueryObject().getClass());  
+        System.out.println("Valid (equal To) query using string value: " +query.toString());
     }
     
     @Test
@@ -77,5 +80,6 @@ public class OdooQueryBuilderTest {
         OdooQuery query = queryBuilder.buildEmptyQuery();
         assertNotNull(query);
         assertTrue(query.getQueryObject().length == 0);
+        System.out.println("Valid empty query: " +query.toString());
     }
 }
