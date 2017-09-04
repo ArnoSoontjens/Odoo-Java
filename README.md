@@ -40,11 +40,18 @@ This does NOT mean that you have access to the database.
 Returns a user id that will be used in future calls to Odoo. Getting a user id means you have access to the Odoo database.
 
 ### search
-Supply this method with the name of the model you are searching in, and a (optional) filter. Will return all of the id's in the 
-model if used with an empty query, and all of the ids that match your query in the case a query is passed to the function.
+Supply this method with the name of the model you are searching in, and a (optional) query. 
+#### Queries
+Queries can be constructed using the ```QueryBuilder```, in the following way (constructs a query that searches field 'id' for a value equal to ```value```:
+```javascript
+OdooQueryBuilder builder = new OdooQueryBuilder;
+OdooQuery query = builder.searchField("id").forValueEqualTo(value).build();
+```
+This ```OdooQuery``` can than be passed to the ```search``` or ```searchAndRead``` functions. Note: This is true for queries that search only one field. Queries that define more parameters (like the one in the example for the ```search``` function) should be done by constructing an ```Object```.
+Using the search function will return all of the ids in the model if used with an empty query, and all of the ids that match your query in the case a query is passed to the function.
 Returns all id's in the "sale.order" model:
 ```javascript
-Object[] query = {};
+Object[] query = {}; //OR: builder.buildEmptyQuery();
 int[] ids = odooConnector.search("sale.order",query);
 ```
 Returns only the id's of the records that match the provided user id and where the field "active" is set to true:
