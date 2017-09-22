@@ -119,6 +119,7 @@ public class OdooConnector implements IOdooConnector {
     @Override
     public int authenticate() throws OdooConnectorException {
         try {
+            System.out.println("####"  + odooClient.authenticate(dbParams));
             odooUserId = odooClient.authenticate(dbParams);
             return odooUserId;
         } catch (XMLRPCException ex) {
@@ -168,6 +169,7 @@ public class OdooConnector implements IOdooConnector {
     
     @Override
     public int createRecord(String model, HashMap<String, String> dataToWrite) throws OdooConnectorException {
+        if(!isAuthenticated()) throw new OdooConnectorException(OdooExceptionMessages.EX_MSG_NOT_AUTHENTENTICATED);
         try {
             Object[] params = {
                 dbParams.getDatabaseName(),

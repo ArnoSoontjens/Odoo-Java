@@ -10,6 +10,7 @@ import com.arnowouter.javaodoo.supportClasses.OdooDatabaseParams;
 import com.arnowouter.javaodoo.supportClasses.OdooVersionInfo;
 import de.timroes.axmlrpc.XMLRPCClient;
 import de.timroes.axmlrpc.XMLRPCException;
+import de.timroes.axmlrpc.XMLRPCServerException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import static java.util.Collections.emptyList;
@@ -67,13 +68,18 @@ public class OdooClient {
     }
     
     public int authenticate(OdooDatabaseParams dbParams) throws XMLRPCException, ClassCastException {
-        int userID = (int) commonClient.call(
+        int userID = -1;
+        Object userIDobj = commonClient.call(
                 OdooConnectorDefaults.ACTION_AUTHENTICATE,
                 dbParams.getDatabaseName(),
                 dbParams.getDatabaseLogin(),
                 dbParams.getDatabasePassword(),
                 emptyList()
         );
+        if(userIDobj instanceof Boolean) {
+            throw new XMLRPCException("Could not authenticate to server. Check credentials!");
+        } 
+        userID = (int) userIDobj;
         return userID;
     }
     
