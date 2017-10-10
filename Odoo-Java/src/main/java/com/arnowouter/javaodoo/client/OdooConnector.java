@@ -119,7 +119,6 @@ public class OdooConnector implements IOdooConnector {
     @Override
     public int authenticate() throws OdooConnectorException {
         try {
-            System.out.println("####"  + odooClient.authenticate(dbParams));
             odooUserId = odooClient.authenticate(dbParams);
             return odooUserId;
         } catch (XMLRPCException ex) {
