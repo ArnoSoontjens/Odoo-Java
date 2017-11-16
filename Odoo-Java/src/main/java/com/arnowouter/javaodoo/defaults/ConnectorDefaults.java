@@ -9,7 +9,7 @@ package com.arnowouter.javaodoo.defaults;
  *
  * @author Arno
  */
-public class OdooConnectorDefaults {
+public class ConnectorDefaults {
 
     // ERRORS
     public static final String ERROR_XML_RPC = "XML-RPC error";    

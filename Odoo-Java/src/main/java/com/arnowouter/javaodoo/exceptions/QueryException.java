@@ -9,16 +9,16 @@ package com.arnowouter.javaodoo.exceptions;
  *
  * @author Arno
  */
-public class OdooQueryException extends OdooConnectorException {
+public class QueryException extends ConnectorException {
 
-    public OdooQueryException() {
+    public QueryException() {
     }
 
-    public OdooQueryException(String message) {
+    public QueryException(String message) {
         super(message);
     }
 
-    public OdooQueryException(String message, Throwable cause) {
+    public QueryException(String message, Throwable cause) {
         super(message, cause);
     }
 }

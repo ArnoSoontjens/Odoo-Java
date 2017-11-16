@@ -5,9 +5,9 @@
  */
 package com.arnowouter.javaodoo.client;
 
-import com.arnowouter.javaodoo.defaults.OdooConnectorDefaults;
-import com.arnowouter.javaodoo.supportClasses.OdooDatabaseParams;
-import com.arnowouter.javaodoo.supportClasses.OdooVersionInfo;
+import com.arnowouter.javaodoo.defaults.ConnectorDefaults;
+import com.arnowouter.javaodoo.util.DatabaseParams;
+import com.arnowouter.javaodoo.util.VersionInfo;
 import de.timroes.axmlrpc.XMLRPCClient;
 import de.timroes.axmlrpc.XMLRPCException;
 import de.timroes.axmlrpc.XMLRPCServerException;
@@ -20,57 +20,56 @@ import java.util.Map;
  *
  * @author Arno
  */
-public class OdooClient {
+public class Client {
     
     XMLRPCClient commonClient;
     XMLRPCClient objectClient;
     
-    public OdooClient(URL url) throws MalformedURLException {
+    public Client(URL url) throws MalformedURLException {
         this(url, false);
     }
     
-    public OdooClient(URL url, boolean ignoreInvalidSSL) throws MalformedURLException{
-        URL objectClientURL = new URL(url.toString()+ OdooConnectorDefaults.OBJECT_ENDPOINT);
-        URL commonClientURL = new URL(url.toString()+ OdooConnectorDefaults.COMMON_ENDPOINT);
+    public Client(URL url, boolean ignoreInvalidSSL) throws MalformedURLException{
+        URL objectClientURL = new URL(url.toString()+ ConnectorDefaults.OBJECT_ENDPOINT);
+        URL commonClientURL = new URL(url.toString()+ ConnectorDefaults.COMMON_ENDPOINT);
         commonClient = createClient(commonClientURL, ignoreInvalidSSL);
         objectClient = createClient(objectClientURL, ignoreInvalidSSL);
     }
     
-    public OdooClient(String protocol, String hostname, boolean HTTPS) throws MalformedURLException {
+    public Client(String protocol, String hostname, boolean HTTPS) throws MalformedURLException {
         this(protocol, hostname, HTTPS, false);
     }
     
-    public OdooClient(String protocol, String hostName, boolean HTTPS, boolean ignoreInvalidSSL) throws MalformedURLException {
+    public Client(String protocol, String hostName, boolean HTTPS, boolean ignoreInvalidSSL) throws MalformedURLException {
         int port = changePortIfHTTPS(HTTPS);
-        URL commonClientURL = new URL(protocol,hostName,port, OdooConnectorDefaults.COMMON_ENDPOINT);
-        URL objectClientURL = new URL(protocol,hostName,port, OdooConnectorDefaults.OBJECT_ENDPOINT);
+        URL commonClientURL = new URL(protocol,hostName,port, ConnectorDefaults.COMMON_ENDPOINT);
+        URL objectClientURL = new URL(protocol,hostName,port, ConnectorDefaults.OBJECT_ENDPOINT);
         objectClient = createClient(objectClientURL, ignoreInvalidSSL);
         commonClient = createClient(commonClientURL, ignoreInvalidSSL);
     }
     
-    public OdooClient(String protocol, String hostName, int connectionPort) throws MalformedURLException {
+    public Client(String protocol, String hostName, int connectionPort) throws MalformedURLException {
         this(protocol, hostName, connectionPort, false);
     }
 
-    public OdooClient(String protocol, String hostName, int connectionPort, boolean ignoreInvalidSSL) throws MalformedURLException {
-        commonClient = createClient(new URL(protocol, hostName, connectionPort, OdooConnectorDefaults.COMMON_ENDPOINT), ignoreInvalidSSL);
-        objectClient = createClient(new URL(protocol, hostName, connectionPort, OdooConnectorDefaults.OBJECT_ENDPOINT), ignoreInvalidSSL);
+    public Client(String protocol, String hostName, int connectionPort, boolean ignoreInvalidSSL) throws MalformedURLException {
+        commonClient = createClient(new URL(protocol, hostName, connectionPort, ConnectorDefaults.COMMON_ENDPOINT), ignoreInvalidSSL);
+        objectClient = createClient(new URL(protocol, hostName, connectionPort, ConnectorDefaults.OBJECT_ENDPOINT), ignoreInvalidSSL);
     }
     
     private XMLRPCClient createClient(URL url, boolean ignoreInvalidSSL) throws MalformedURLException {
         XMLRPCClient client;
         if(ignoreInvalidSSL) {
-            client = OdooClientFactory.createUnsecureClient(url);
+            client = ClientFactory.createUnsecureClient(url);
         } else {
-            client = OdooClientFactory.createClient(url);
+            client = ClientFactory.createClient(url);
         }
         return client;
     }
     
-    public int authenticate(OdooDatabaseParams dbParams) throws XMLRPCException, ClassCastException {
+    public int authenticate(DatabaseParams dbParams) throws XMLRPCException, ClassCastException {
         int userID = -1;
-        Object userIDobj = commonClient.call(
-                OdooConnectorDefaults.ACTION_AUTHENTICATE,
+        Object userIDobj = commonClient.call(ConnectorDefaults.ACTION_AUTHENTICATE,
                 dbParams.getDatabaseName(),
                 dbParams.getDatabaseLogin(),
                 dbParams.getDatabasePassword(),
@@ -87,8 +86,8 @@ public class OdooClient {
         return objectClient.call("exec_workflow", params);
     }
     
-    public OdooVersionInfo getVersion() throws XMLRPCException {
-        return new OdooVersionInfo(commonClient.call(OdooConnectorDefaults.ACTION_VERSION_INFO));
+    public VersionInfo getVersion() throws XMLRPCException {
+        return new VersionInfo(commonClient.call(ConnectorDefaults.ACTION_VERSION_INFO));
     }
   
     public int[] search(Object[] params) throws XMLRPCException {
@@ -111,7 +110,7 @@ public class OdooClient {
     }
     
     public int write(Object[] params) throws XMLRPCException{
-        return (int) objectClient.call(OdooConnectorDefaults.EXECUTE, params);
+        return (int) objectClient.call(ConnectorDefaults.EXECUTE, params);
     }
     
     public Map<String,String> callToStartTestDatabase(URL url) throws XMLRPCException {
@@ -121,13 +120,13 @@ public class OdooClient {
     }
     
     private Object[] executeCall(Object[] params) throws XMLRPCException {
-        return (Object[]) objectClient.call(OdooConnectorDefaults.EXECUTE, params);
+        return (Object[]) objectClient.call(ConnectorDefaults.EXECUTE, params);
     }
     
     private int changePortIfHTTPS(boolean HTTPS) {
-        int port = OdooConnectorDefaults.DEFAULT_HTTP_PORT;
+        int port = ConnectorDefaults.DEFAULT_HTTP_PORT;
         if(HTTPS){
-            port = OdooConnectorDefaults.DEFAULT_HTTPS_PORT;
+            port = ConnectorDefaults.DEFAULT_HTTPS_PORT;
         }
         return port;
     }

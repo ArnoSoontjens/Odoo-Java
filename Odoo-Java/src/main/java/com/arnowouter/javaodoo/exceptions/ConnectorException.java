@@ -9,16 +9,16 @@ package com.arnowouter.javaodoo.exceptions;
  *
  * @author Arno
  */
-public class OdooConnectorException extends Exception{
+public class ConnectorException extends Exception{
 
-    public OdooConnectorException() {
+    public ConnectorException() {
     }
 
-    public OdooConnectorException(String message) {
+    public ConnectorException(String message) {
         super(message);
     }
 
-    public OdooConnectorException(String message, Throwable cause) {
+    public ConnectorException(String message, Throwable cause) {
         super(message, cause);
     }
     

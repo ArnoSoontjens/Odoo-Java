@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.arnowouter.javaodoo.supportClasses;
+package com.arnowouter.javaodoo.util;
 
 import static java.util.Arrays.asList;
 
@@ -11,7 +11,7 @@ import static java.util.Arrays.asList;
  *
  * @author Arno
  */
-public class OdooQuery {
+public class Query {
     
     public static final String EQUALS = "=";
     public static final String BIGGER_THAN = ">";
@@ -22,7 +22,7 @@ public class OdooQuery {
     private String field;
     private Object searched;
     
-    public OdooQuery(String fieldToBeSearched, String operator, Object searchedForObject) {
+    public Query(String fieldToBeSearched, String operator, Object searchedForObject) {
         this.operator = operator;
         this.field = fieldToBeSearched;
         this.searched = searchedForObject;
@@ -32,7 +32,7 @@ public class OdooQuery {
         query = q;
     }
     
-    public OdooQuery(Object[] query) {
+    public Query(Object[] query) {
         this.query = query;
     }
     

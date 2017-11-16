@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.arnowouter.javaodoo.supportClasses;
+package com.arnowouter.javaodoo.util;
 
 /**
  *
  * @author Arno
  */
-public class OdooDatabaseParams {
+public class DatabaseParams {
     private String databaseName;
     private String databaseLogin;
     private String databasePassword;
 
-    public OdooDatabaseParams(String databaseName, String databaseLogin, String databasePassword) {
+    public DatabaseParams(String databaseName, String databaseLogin, String databasePassword) {
         this.databaseName = databaseName;
         this.databaseLogin = databaseLogin;
         this.databasePassword = databasePassword;

@@ -5,10 +5,10 @@
  */
 package Tests;
 
-import com.arnowouter.javaodoo.client.OdooConnector;
-import com.arnowouter.javaodoo.exceptions.OdooConnectorException;
-import com.arnowouter.javaodoo.supportClasses.OdooDatabaseParams;
-import com.arnowouter.javaodoo.supportClasses.OdooVersionInfo;
+import com.arnowouter.javaodoo.client.Connector;
+import com.arnowouter.javaodoo.exceptions.ConnectorException;
+import com.arnowouter.javaodoo.util.DatabaseParams;
+import com.arnowouter.javaodoo.util.VersionInfo;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
@@ -19,26 +19,26 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
-import com.arnowouter.javaodoo.IOdooConnector;
-import com.arnowouter.javaodoo.exceptions.OdooQueryException;
-import com.arnowouter.javaodoo.supportClasses.OdooQuery;
-import com.arnowouter.javaodoo.supportClasses.OdooQueryBuilder;
+import com.arnowouter.javaodoo.exceptions.QueryException;
+import com.arnowouter.javaodoo.util.Query;
+import com.arnowouter.javaodoo.util.QueryBuilder;
 import static java.util.Arrays.asList;
+import com.arnowouter.javaodoo.IConnector;
 
 /**
  *
  * @author Arno
  */
 public class OdooConnectorTest {
-    static IOdooConnector testDBConnector;
-    static IOdooConnector odooConnector;
-    static OdooDatabaseParams dbParams;
+    static IConnector testDBConnector;
+    static IConnector odooConnector;
+    static DatabaseParams dbParams;
     static int userID;
     static String odooHostName, databaseLogin, databaseName, databasePassword;
     
     @BeforeClass
-    public static void setUpClass() throws MalformedURLException, OdooConnectorException {
-        testDBConnector = new OdooConnector();
+    public static void setUpClass() throws MalformedURLException, ConnectorException {
+        testDBConnector = new Connector();
         String hostName = "demo.odoo.com";
         String protocolHTTP = "http";
 
@@ -55,8 +55,8 @@ public class OdooConnectorTest {
         System.out.println("User: " + databaseLogin);
         System.out.println("Password: " + databasePassword);
 
-        dbParams = new OdooDatabaseParams(databaseName, databaseLogin, databasePassword);
-        odooConnector = new OdooConnector(odooHostName, false);
+        dbParams = new DatabaseParams(databaseName, databaseLogin, databasePassword);
+        odooConnector = new Connector(odooHostName, false);
         odooConnector.setDbParams(dbParams);
 
         System.out.println(odooConnector.getVersion());
@@ -81,14 +81,14 @@ public class OdooConnectorTest {
     }
 
     @Test
-    public void shouldGetVersionInformation() throws OdooConnectorException {
-        OdooVersionInfo versionInfo = odooConnector.getVersion();
+    public void shouldGetVersionInformation() throws ConnectorException {
+        VersionInfo versionInfo = odooConnector.getVersion();
         assertNotNull(versionInfo);
         System.out.println(versionInfo);
     }
     
     @Test 
-    public void shouldAuthenticate() throws OdooConnectorException{
+    public void shouldAuthenticate() throws ConnectorException{
         int userID = odooConnector.authenticate();
         System.out.println("User ID: " + userID);
         assertNotEquals(-1, userID);
@@ -96,14 +96,14 @@ public class OdooConnectorTest {
     }
     
     @Test @Ignore
-    public void shouldSearchAndReturnEmptyArray()throws OdooConnectorException {
+    public void shouldSearchAndReturnEmptyArray()throws ConnectorException {
         Object[] query = {};
         int[] ids = odooConnector.search("not.existing.model",query);
         assertTrue(ids.length == 0);
     }
     
     @Test
-    public void shouldSearchWithSelfDefinedEmptyQuery() throws OdooConnectorException {
+    public void shouldSearchWithSelfDefinedEmptyQuery() throws ConnectorException {
         Object[] query = {};
         int[] ids = odooConnector.search("sale.order",query);
         for(int i=0;i<ids.length;i++){
@@ -114,9 +114,9 @@ public class OdooConnectorTest {
     }
     
     @Test
-    public void shouldSearchWithBuiltEmptyQuery() throws OdooConnectorException {
-        OdooQueryBuilder builder = new OdooQueryBuilder();
-        OdooQuery query = builder.buildEmptyQuery();
+    public void shouldSearchWithBuiltEmptyQuery() throws ConnectorException {
+        QueryBuilder builder = new QueryBuilder();
+        Query query = builder.buildEmptyQuery();
         
         int[] ids = odooConnector.search("sale.order",query);
         for(int i=0;i<ids.length;i++){
@@ -127,7 +127,7 @@ public class OdooConnectorTest {
     }
     
     @Test
-    public void shouldRead() throws OdooConnectorException {
+    public void shouldRead() throws ConnectorException {
         int[] ids = {1,2,4,5,484,4484,1454,484,4541,5564};
 
         Object[] result = odooConnector.read("sale.order",ids);
@@ -139,7 +139,7 @@ public class OdooConnectorTest {
     }
     
     @Test
-    public void shouldSearchWithSelfDefinedQuery() throws OdooConnectorException {
+    public void shouldSearchWithSelfDefinedQuery() throws ConnectorException {
         Object[] query = {
             asList("id", ">", "10")
         };
@@ -153,7 +153,7 @@ public class OdooConnectorTest {
     }
     
     @Test
-    public void shouldSearchWithSelfDefinedEqualQuery() throws OdooConnectorException {
+    public void shouldSearchWithSelfDefinedEqualQuery() throws ConnectorException {
         Object[] query = {
             asList("id", "=", "10")
         };
@@ -167,9 +167,9 @@ public class OdooConnectorTest {
     }
     
     @Test
-    public void shouldReadWithBuiltQuery() throws OdooQueryException, OdooConnectorException {
-        OdooQueryBuilder builder = new OdooQueryBuilder();
-        OdooQuery query = builder.searchField("id").forValueBiggerThan("10").build();
+    public void shouldReadWithBuiltQuery() throws QueryException, ConnectorException {
+        QueryBuilder builder = new QueryBuilder();
+        Query query = builder.searchField("id").forValueBiggerThan("10").build();
         
         int[] result = odooConnector.search("sale.order",query);
         for(int res : result){
@@ -180,9 +180,9 @@ public class OdooConnectorTest {
     }
     
     @Test
-    public void shouldFindSaleOrderWithId10UsingInt() throws OdooQueryException, OdooConnectorException {
-        OdooQueryBuilder builder = new OdooQueryBuilder();
-        OdooQuery query = builder.searchField("id").forValueEqualTo(10).build();
+    public void shouldFindSaleOrderWithId10UsingInt() throws QueryException, ConnectorException {
+        QueryBuilder builder = new QueryBuilder();
+        Query query = builder.searchField("id").forValueEqualTo(10).build();
         
         int[] result = odooConnector.search("sale.order",query);
         for(int res : result){
@@ -193,9 +193,9 @@ public class OdooConnectorTest {
     }
     
     @Test
-    public void shouldFindSaleOrderWithId10UsingString() throws OdooQueryException, OdooConnectorException {
-        OdooQueryBuilder builder = new OdooQueryBuilder();
-        OdooQuery query = builder.searchField("id").forValueEqualTo("10").build();
+    public void shouldFindSaleOrderWithId10UsingString() throws QueryException, ConnectorException {
+        QueryBuilder builder = new QueryBuilder();
+        Query query = builder.searchField("id").forValueEqualTo("10").build();
         
         int[] result = odooConnector.search("sale.order",query);
         for(int res : result){

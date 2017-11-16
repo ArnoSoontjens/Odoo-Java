@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.arnowouter.javaodoo.supportClasses;
+package com.arnowouter.javaodoo.util;
 
 import java.util.HashMap;
 
 
-public class OdooVersionInfo {
+public class VersionInfo {
     private int protocol_version;
     private String server_serie;
     private String server_version;
     private String server_version_info;
 
-    public OdooVersionInfo(Object versionObject) {
+    public VersionInfo(Object versionObject) {
         server_serie = new String();
         server_version = new String();
         server_version_info = new String();

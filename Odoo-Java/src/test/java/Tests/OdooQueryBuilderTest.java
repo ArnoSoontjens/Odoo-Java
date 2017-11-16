@@ -5,9 +5,9 @@
  */
 package Tests;
 
-import com.arnowouter.javaodoo.exceptions.OdooQueryException;
-import com.arnowouter.javaodoo.supportClasses.OdooQuery;
-import com.arnowouter.javaodoo.supportClasses.OdooQueryBuilder;
+import com.arnowouter.javaodoo.exceptions.QueryException;
+import com.arnowouter.javaodoo.util.Query;
+import com.arnowouter.javaodoo.util.QueryBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,65 +19,65 @@ import static org.junit.Assert.*;
  */
 public class OdooQueryBuilderTest {
     
-    static OdooQueryBuilder queryBuilder;
+    static QueryBuilder queryBuilder;
     
     public OdooQueryBuilderTest() {
     }
     
     @Before
     public void setUp() {
-        queryBuilder = new OdooQueryBuilder();  
+        queryBuilder = new QueryBuilder();  
     }
     
     @After
     public void tearDown() {
     }
 
-    @Test (expected = OdooQueryException.class)
-    public void shouldThrowBecauseOperatorNotSet() throws OdooQueryException {
-        OdooQuery query = queryBuilder.build();
+    @Test (expected = QueryException.class)
+    public void shouldThrowBecauseOperatorNotSet() throws QueryException {
+        Query query = queryBuilder.build();
     }
     
-    @Test (expected = OdooQueryException.class)
-    public void shouldThrowBecauseFieldNotSet() throws OdooQueryException {
-        OdooQuery query = queryBuilder.forValueSmallerThan("10").build();
+    @Test (expected = QueryException.class)
+    public void shouldThrowBecauseFieldNotSet() throws QueryException {
+        Query query = queryBuilder.forValueSmallerThan("10").build();
     }
     
-    @Test (expected = OdooQueryException.class)
-    public void shouldThrowBecauseNullValue() throws OdooQueryException {
-        OdooQuery query = queryBuilder.forValueEqualTo(null).build();
+    @Test (expected = QueryException.class)
+    public void shouldThrowBecauseNullValue() throws QueryException {
+        Query query = queryBuilder.forValueEqualTo(null).build();
     }
     
     @Test
-    public void shouldReturnValidQuery() throws OdooQueryException {
-        OdooQuery query = queryBuilder.searchField("a_field").forValueBiggerThan("10").build();
+    public void shouldReturnValidQuery() throws QueryException {
+        Query query = queryBuilder.searchField("a_field").forValueBiggerThan("10").build();
         assertNotNull(query);
-        assertEquals(OdooQuery.class, query.getClass());
+        assertEquals(Query.class, query.getClass());
         assertEquals(Object[].class, query.getQueryObject().getClass()); 
         System.out.println("Valid query using string value: " +query.toString());
     }
     
     @Test
-    public void shouldReturnValidQueryUsingInt() throws OdooQueryException {
-        OdooQuery query = queryBuilder.searchField("a_field").forValueEqualTo(10).build();
+    public void shouldReturnValidQueryUsingInt() throws QueryException {
+        Query query = queryBuilder.searchField("a_field").forValueEqualTo(10).build();
         assertNotNull(query);
-        assertEquals(OdooQuery.class, query.getClass());
+        assertEquals(Query.class, query.getClass());
         assertEquals(Object[].class, query.getQueryObject().getClass()); 
         System.out.println("Valid query using int value: " +query.toString());
     }
     
     @Test
-    public void shouldReturnValidQueryUsingString() throws OdooQueryException {
-        OdooQuery query = queryBuilder.searchField("a_field").forValueEqualTo("10").build();
+    public void shouldReturnValidQueryUsingString() throws QueryException {
+        Query query = queryBuilder.searchField("a_field").forValueEqualTo("10").build();
         assertNotNull(query);
-        assertEquals(OdooQuery.class, query.getClass());
+        assertEquals(Query.class, query.getClass());
         assertEquals(Object[].class, query.getQueryObject().getClass());  
         System.out.println("Valid (equal To) query using string value: " +query.toString());
     }
     
     @Test
     public void shouldBuildEmptyQuery() {
-        OdooQuery query = queryBuilder.buildEmptyQuery();
+        Query query = queryBuilder.buildEmptyQuery();
         assertNotNull(query);
         assertTrue(query.getQueryObject().length == 0);
         System.out.println("Valid empty query: " +query.toString());

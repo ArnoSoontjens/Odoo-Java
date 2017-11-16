@@ -13,7 +13,7 @@ import java.net.URL;
  *
  * @author Arno
  */
-public class OdooClientFactory {
+public class ClientFactory {
     
     public static XMLRPCClient createUnsecureClient(URL url) throws MalformedURLException {
         return createClient(url, true);
