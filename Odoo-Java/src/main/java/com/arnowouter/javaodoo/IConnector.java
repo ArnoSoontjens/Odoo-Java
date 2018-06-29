@@ -33,7 +33,7 @@ public interface IConnector {
     public Object[] searchAndRead(String model, Query query, Object[] requestedFields) throws ConnectorException;
     public Object[] searchAndRead(String model, Object[] query, Object[] requestedFields) throws ConnectorException;
     public int createRecord(String model, HashMap<String, String> dataToCreate) throws ConnectorException;
-    public int updateRecord(String model, HashMap<String, String> dataToUpdate) throws ConnectorException;
+    public int updateRecord(String model, int[] idsToUpdate, HashMap<String, String> dataToUpdate) throws ConnectorException;
     public void deleteRecords(String model, Object[] idsToBeDeleted) throws ConnectorException;
     public void setDbParams(DatabaseParams dbParams);
 }

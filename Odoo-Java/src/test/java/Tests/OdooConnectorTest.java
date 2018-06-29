@@ -24,6 +24,7 @@ import com.arnowouter.javaodoo.util.Query;
 import com.arnowouter.javaodoo.util.QueryBuilder;
 import static java.util.Arrays.asList;
 import com.arnowouter.javaodoo.IConnector;
+import java.util.HashMap;
 
 /**
  *
@@ -136,6 +137,42 @@ public class OdooConnectorTest {
         }
         assertNotNull(result);
         assertTrue(result.length>0);
+    }
+    
+    @Test
+    public void shouldUpdate() throws ConnectorException {
+        int[] ids = {10};
+        Object[] result = odooConnector.read("sale.order", ids);
+        assertNotNull(result);
+        Object objToUpdate = null;
+        for(Object res : result){
+            objToUpdate = res;
+        }
+        assertNotNull(objToUpdate);
+        assertTrue(result.length>0);
+        
+        HashMap<String,Object> map = (HashMap) objToUpdate;
+        int amount = (Integer) map.get("cart_quantity");
+        assertNotNull(amount);
+        
+        HashMap<String, String> updated = new HashMap<>();
+        updated.put("cart_quantity", "10");
+        
+        odooConnector.updateRecord("sale.order", ids, updated);
+        
+        result = odooConnector.read("sale.order", ids);
+        assertNotNull(result);
+        objToUpdate = null;
+        for(Object res : result){
+            objToUpdate = res;
+        }
+        assertNotNull(objToUpdate);
+        assertTrue(result.length>0);
+        
+        map = (HashMap) objToUpdate;
+        amount = (Integer) map.get("cart_quantity");
+        assertNotNull(amount);
+        assertEquals(10, amount);
     }
     
     @Test

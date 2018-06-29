@@ -186,6 +186,25 @@ public class Connector implements IConnector {
     }
     
     @Override
+    public int updateRecord(String model, int[] idsToUpdate, HashMap<String, String> dataToUpdate) throws ConnectorException {
+        if(!isAuthenticated()) throw new ConnectorException(ExceptionMessages.EX_MSG_NOT_AUTHENTENTICATED);
+        try {
+            Object[] params = {
+                dbParams.getDatabaseName(),
+                odooUserId,
+                dbParams.getDatabasePassword(),
+                model,
+                ConnectorDefaults.ACTION_UPDATE,
+                asList(idsToUpdate),
+                asList(dataToUpdate)
+            };
+            return (int) odooClient.write(params);
+        } catch (XMLRPCException ex){
+            throw new ConnectorException(ex.getMessage(), ex);
+        }
+    }
+    
+    @Override
     public Object[] read(String model, int[] requestedIds) throws ConnectorException {
         return read(model, requestedIds, new Object[0]);
     }
@@ -280,11 +299,6 @@ public class Connector implements IConnector {
         } catch (XMLRPCException ex) {
             throw new ConnectorException(ex.getMessage(), ex);
         }
-    }
-
-    @Override
-    public int updateRecord(String model, HashMap<String, String> dataToUpdate) throws ConnectorException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
